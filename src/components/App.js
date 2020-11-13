@@ -29,7 +29,7 @@ const App = () => {
 
   let arr = [];
   const loadPokemon = (
-    defaultList = Array.from({ length: 807 }, (_, i) => i + 1)
+    defaultList = Array.from({ length: 5 }, (_, i) => i + 1)
   ) => {
     function getPokemons(id) {
       return new Promise((resolve, reject) => {
