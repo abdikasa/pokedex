@@ -1,0 +1,385 @@
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+.mr {
+  margin-right:1rem;
+  margin-left:1rem;
+}
+
+.ui.small.image.mr{
+  margin-bottom:2rem;
+}
+
+:not(i) {
+  font-family: "AlleynW01-Regular"  !important;
+}
+
+:root {
+  --fire: #f27d16;
+  --water: #48a9e0;
+  --grass: #40cdab;
+  --bug: rgb(168, 184, 32);
+  --normal: rgb(168, 168, 120);
+}
+
+.poke-all {
+  position: relative;
+  color: #fff;
+  border-radius: 8px;
+  z-index: 2;
+  min-height: 130px;
+  background-position: 100% 0;
+  background-size: 200% 100%;
+  transition: all .25s ease-in;  
+  text-shadow: 0px 0px 3px #000;
+  letter-spacing: 1px;
+}
+
+.poke-all:hover {
+  background-position: 0 0;
+  font-size: 2rem;
+  color: #fff;
+  text-shadow: 0px 0px 7px #000;
+}
+
+.fire {
+  background-color: var(--fire);
+}
+
+.bug {
+  background-color: var(--bug);
+}
+
+.bug.column:after {
+  content: url("https://api.iconify.design/mdi-pokeball.svg?color=rgb(200%2C184%2C32)&height=5rem");
+}
+
+.normal {
+  background-color: var(--normal);
+}
+
+.normal.column:after {
+  content: url("https://api.iconify.design/mdi-pokeball.svg?color=rgb(200%2C168%2C120)&height=5rem");
+}
+
+.fire.column:after {
+  content: url("https://api.iconify.design/mdi-pokeball.svg?color=%23e09618&height=5rem");
+}
+
+.water.column:after {
+  content: url("https://api.iconify.design/mdi-pokeball.svg?color=%231798e2&height=5rem");
+}
+
+.electric.column:after {
+  content: url('https://api.iconify.design/mdi-pokeball.svg?color=%23dbbc10&height=5rem');
+}
+
+.poison.column:after {
+  content: url('https://api.iconify.design/mdi-pokeball.svg?color=%23EE90E6&height=5rem');
+}
+
+.fairy.column:after {
+  content: url('https://api.iconify.design/mdi-pokeball.svg?color=%23B763CF&height=5rem');
+}
+
+.ground.column:after {
+  content: url('https://api.iconify.design/mdi-pokeball.svg?color=%23FBA54C&height=5rem');
+}
+
+.fighting.column:after {
+  content: url('https://api.iconify.design/mdi-pokeball.svg?color=%23e38799&height=5rem');
+}
+
+.psychic.column:after {
+  content: url('https://api.iconify.design/mdi-pokeball.svg?color=%23D3425F&height=5rem');
+}
+
+.rock.column:after {
+  content: url('https://api.iconify.design/mdi-pokeball.svg?color=%23a28f4b&height=5rem');
+}
+
+.dragon.column:after {
+  content: url('https://api.iconify.design/mdi-pokeball.svg?color=%2386bef8&height=5rem');
+}
+
+.dark.column:after {
+  content: url('https://api.iconify.design/mdi-pokeball.svg?color=%23615d57&height=5rem');
+}
+
+.grass {
+  background-color: var(--grass) !important;
+}
+
+.water {
+  background-color: var(--water);
+}
+
+.poke-all:after {
+  position: absolute;
+  right: 60%;
+  top: 22%;
+  width: 10px;
+  content: url("https://api.iconify.design/mdi-pokeball.svg?color=%2320ABAB&height=5rem");
+  z-index: 1;
+}
+
+.column h2 {
+  font-size: 1.35rem;
+  font-weight: 100;
+  margin-top:0.5rem !important;
+}
+
+.pokedex-container {
+  margin-top: 3rem !important;
+  grid-gap: 2rem 0.75rem;
+}
+
+.icons {
+  display: flex;
+  flex-direction: column;
+  width: 3rem;
+  position: relative;
+}
+
+.icon_wrap img {
+  width: 80%;
+  height: auto;
+  transform: translateX(11.5%) translateY(12%);
+}
+
+.icons_poke {
+  display: flex;
+}
+
+.poke {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  bottom: -13px;
+  z-index: 3;
+  right: 10px;
+}
+
+.poke img {
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+  width: 5.1rem;
+}
+
+.icon_wrap {
+  /* background-color: #fff; */
+  position: relative;
+  width: 22px;
+  height: 22px;
+  overflow: hidden;
+  border-radius: 50%;
+  margin-bottom: 0.3rem;
+}
+
+#pkmn_name {
+  text-transform: capitalize;
+  font-size: 1.12rem;
+  font-size: 0.97rem;
+  position: relative;
+  z-index: 5;
+}
+
+.center-x {
+  display: flex !important;
+  justify-content: center;
+  flex-direction: column;
+  /* min-height: 100vh; */
+}
+
+.translateDown {
+  transform: translateY(5rem);
+}
+
+.d-flex-c, .d-flex-r {
+  display: flex !important;
+  justify-content: center;
+}
+
+.d-flex-c {
+  flex-direction: column;
+}
+
+.ui.label img {
+  padding-right:0.45rem;
+}
+
+.d-flex {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width:100%;
+  min-height: 5vh;
+}
+
+.d-flex h2, .d-flex h1 {
+  margin: 0;
+}
+
+.name_id h1 {
+  color: #fff;
+}
+
+.name_id h2 span {
+  padding: 0 0.3rem 0 0.3rem;
+}
+
+.pkmn-header-img {
+  margin: 0 auto;
+  transform: translateY(5rem);
+}
+
+.p-body {
+  background-color:#fff;
+  min-height:45vh;
+  border-top-left-radius: 60px;
+  border-top-right-radius: 60px;
+}
+
+.mt {
+margin-top:5rem;
+}
+
+.header_types {
+  display: flex;
+  justify-content: center;
+  margin-top:7rem;
+}
+
+.ui.label.type {
+  margin-right:1rem !important;
+  border-radius: 20px;
+  padding: 0.4rem 2rem;  
+  font-size: 0.90rem;
+}
+
+.ui.label.type.wri {
+  padding: 0.5rem 1rem;
+}
+
+.pkmn_type_text{
+  vertical-align: middle;
+  font-size: 1.1rem;
+  padding-left: 4px;
+}
+
+.biography {
+  max-width: 700px;
+  margin: 0 auto !important;
+  font-size: 1.15rem !important;
+}
+
+
+.about_item.item {
+  display: flex;
+  flex-direction: column;
+  width:22% !important;
+  text-align: center;
+
+}
+
+.ui.segment {
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  word-spacing: 2px;
+  line-height: 1.5;
+}
+
+.about_item.item span {
+  font-size: 1.1em;
+}
+
+.about_items {
+  display: flex;
+  justify-content: center;
+  max-width: 700px;
+  margin: 0 auto !important;
+}
+
+.ui.items>.item.about_item:first-child {
+  margin: 1em 0;
+}
+
+
+.about_item.item span {
+  margin: auto 0;
+}
+
+.about_item.item img {
+  margin: 0 auto;
+}
+
+.ability_item span,
+.ability_item h3
+ {
+  text-align: left;
+}
+
+.wri {
+  width: 10rem;
+  margin: 1rem 0 !important;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.back-btn {
+  width:15px !important;
+  max-height: 3rem !important;
+}
+
+.pkmn_search {
+  width: 300px !important;
+  height:40px !important;
+}
+
+@media (min-width: 768px) {
+  .pokemon_abilites {
+    max-width: 800px;
+    margin: 0 auto !important;
+    }
+    
+    .ability_item h3 {
+      width: 200px;
+    }
+    
+    .ability_item span {
+      text-align: left;
+      width:500px;
+    }
+}
+
+@media (max-width: 769px) {
+  .ui.items>.item.about_item:first-child {
+    margin: 2em 0;
+  }
+}
+
+@media (max-width: 400px) {
+  .ui.items.about_items {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about_item.item img {
+    margin-left: -0.7rem;
+  }
+}
+
+
+@media (min-width: 360px) {
+
+}
