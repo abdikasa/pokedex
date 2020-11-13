@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import ReactDOM from "react-dom";
 import Pokeapi from "../api/Pokeapi";
 import PokemonHeader from "./PokemonHeader";
 import Spinner from "./Spinner";

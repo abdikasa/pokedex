@@ -1,8 +1,9 @@
-import React from "react";
-import PokemonImage from "./PokemonImage";
-import PokemonTypes from "./PokemonTypes";
+import React, { lazy, Suspense } from "react";
 import PokemonTabs from "./PokemonTabs";
 import Link from "./Link";
+
+const PokemonImage = lazy(() => import("./PokemonImage"));
+const PokemonTypes = lazy(() => import("./PokemonTypes"));
 
 const pad = (number) => {
   let str = "" + number;
@@ -64,16 +65,24 @@ const PokemonHeader = ({ pokemon }) => {
             {pad(poke.id)}
           </h2>
         </div>
-        <PokemonImage
-          pokemon={poke}
-          className={`ui medium image pkmn-header-img body`}
-        ></PokemonImage>
+        <Suspense
+          fallback={<div className="ui active centered inline loader"></div>}
+        >
+          <PokemonImage
+            pokemon={poke}
+            className={`ui medium image pkmn-header-img body`}
+          ></PokemonImage>
+        </Suspense>
         <div className="p-body">
           <div className={`mt header_types`}>
-            <PokemonTypes
-              types={poke.types}
-              className={`ui label type`}
-            ></PokemonTypes>
+            <Suspense
+              fallback={<div class="ui active centered inline loader"></div>}
+            >
+              <PokemonTypes
+                types={poke.types}
+                className={`ui label type`}
+              ></PokemonTypes>
+            </Suspense>
           </div>
           <div className="mt">
             <PokemonTabs

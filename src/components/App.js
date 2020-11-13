@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import Pokeapi from "../api/Pokeapi";
-import PokemonList from "./PokemonList";
-import PokeProfile from "./PokeProfile";
 import Route from "./Route";
 import Search from "./Search";
 import "../css/all.css";
 import "../types-imgs/type_style.css";
+
+const PokemonList = lazy(() => import("./PokemonList"));
+const PokeProfile = lazy(() => import("./PokeProfile"));
 
 const App = () => {
   const [pokemons, setPokemons] = useState([]);
@@ -68,15 +69,19 @@ const App = () => {
             ></Search>
           </div>
           <div className="ui grid pokedex-container grid">
-            <PokemonList
-              pokemons={pokemons}
-              setSelectedPoke={setSelectedPoke}
-            ></PokemonList>
+            <Suspense fallback={<div>Loading all pokemon...</div>}>
+              <PokemonList
+                pokemons={pokemons}
+                setSelectedPoke={setSelectedPoke}
+              ></PokemonList>
+            </Suspense>
           </div>
         </>
       </Route>
       <Route path={`/pokemon`}>
-        <PokeProfile pokemon={selectedPoke}></PokeProfile>
+        <Suspense fallback={<div>Loading pokemon...</div>}>
+          <PokeProfile pokemon={selectedPoke}></PokeProfile>
+        </Suspense>
       </Route>
     </div>
   );

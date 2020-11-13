@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { crossGenEvolve, isObjEmpty, displayPokemon } from "../usefulFunctions";
 
 const fullEvolution = (evolution, running = []) => {
@@ -176,7 +176,11 @@ const PokemonEvolution = ({ evolutionLine }) => {
     <React.Fragment key={Math.random() * 10000}>
       <div className="ui segment center aligned flex-column">
         <h1 className="ui label huge">Evolution Line</h1>
-        <div style={{ marginTop: "3rem" }}>{showEvolution}</div>
+        <Suspense
+          fallback={<div class="ui active centered inline loader"></div>}
+        >
+          <div style={{ marginTop: "3rem" }}>{showEvolution}</div>
+        </Suspense>
       </div>
     </React.Fragment>
   );

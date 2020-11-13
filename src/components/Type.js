@@ -110,7 +110,11 @@ const Type = ({ type, className }) => {
 
   return (
     <div className={`${className} ${color}`}>
-      <img src={`${pkmnType}`} alt={`${passedType} pokemon`}></img>
+      <img
+        src={`${pkmnType}`}
+        loading="lazy"
+        alt={`${passedType} pokemon`}
+      ></img>
       <span className={"pkmn_type_text"}>{capitalize(passedType)}</span>
     </div>
   );

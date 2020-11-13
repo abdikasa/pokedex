@@ -1,7 +1,8 @@
-import React from "react";
-import PokemonTypes from "./PokemonTypes";
+import React, { lazy, Suspense } from "react";
 import allTypes from "../allTypes";
 import { mergeDupes, capitalize } from "../usefulFunctions";
+
+const PokemonTypes = lazy(() => import("./PokemonTypes"));
 
 let getTypes = (poke, allTypes) => {
   let types = poke.types.map(({ type }) => {
@@ -53,10 +54,12 @@ const PokeWRI = ({ poke, headerText = "" }) => {
       );
     }
     return (
-      <PokemonTypes
-        types={myTypes}
-        className="ui label type wri"
-      ></PokemonTypes>
+      <Suspense fallback={<div class="ui active centered inline loader"></div>}>
+        <PokemonTypes
+          types={myTypes}
+          className="ui label type wri"
+        ></PokemonTypes>
+      </Suspense>
     );
   };
 

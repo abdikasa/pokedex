@@ -1,6 +1,7 @@
-import React from "react";
-import PokemonImage from "./PokemonImage";
+import React, { lazy, Suspense } from "react";
 import { checkForms, capitalize } from "../usefulFunctions";
+
+const PokemonImage = lazy(() => import("./PokemonImage"));
 
 const PokemonForms = ({ pokemon }) => {
   const allForms = checkForms();
@@ -17,13 +18,17 @@ const PokemonForms = ({ pokemon }) => {
       if (k === "Giga") k = "Gigantamax";
       if (Object.keys(forms).length === 1) className = "medium";
       formsMap.push(
-        <>
-          <PokemonImage
-            className={`ui ${className} image mr`}
-            pokemon={pokemon[0]}
-            forms={`-${k}`}
-          ></PokemonImage>
-        </>
+        <Suspense
+          fallback={<div class="ui active centered inline loader"></div>}
+        >
+          <>
+            <PokemonImage
+              className={`ui ${className} image mr`}
+              pokemon={pokemon[0]}
+              forms={`-${k}`}
+            ></PokemonImage>
+          </>
+        </Suspense>
       );
     }
   }

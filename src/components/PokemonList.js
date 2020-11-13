@@ -1,8 +1,9 @@
-import React from "react";
-import PokemonTypes from "./PokemonTypes";
+import React, { lazy, Suspense } from "react";
 import Link from "./Link";
-import PokemonImage from "./PokemonImage";
 import { checkPokemonArray } from "../usefulFunctions";
+
+const PokemonImage = lazy(() => import("./PokemonImage"));
+const PokemonTypes = lazy(() => import("./PokemonTypes"));
 
 const PokemonList = ({ pokemons, setSelectedPoke }) => {
   const onButtonClick = (event, data, href) => {
@@ -48,13 +49,28 @@ const PokemonList = ({ pokemons, setSelectedPoke }) => {
               <h2 id={"pkmn_name"}>{data.name}</h2>
               <div className="icons_poke">
                 <div className="icons">
-                  <PokemonTypes
-                    types={data.types}
-                    className="icon_wrap"
-                  ></PokemonTypes>
+                  <Suspense
+                    fallback={
+                      <div class="ui active centered inline loader"></div>
+                    }
+                  >
+                    <PokemonTypes
+                      types={data.types}
+                      className="icon_wrap"
+                    ></PokemonTypes>
+                  </Suspense>
                 </div>
                 <div className="poke">
-                  <PokemonImage pokemon={data} className="thumb"></PokemonImage>
+                  <Suspense
+                    fallback={
+                      <div class="ui active centered inline loader"></div>
+                    }
+                  >
+                    <PokemonImage
+                      pokemon={data}
+                      className="thumb"
+                    ></PokemonImage>
+                  </Suspense>
                 </div>
               </div>
             </div>

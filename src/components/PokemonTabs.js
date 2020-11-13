@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Tab } from "semantic-ui-react";
-import { HorizontalBar } from "react-chartjs-2";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import TabHelper from "./TabHelper";
 import PokemonAbilities from "./PokemonAbilities";
 import PokeWRI from "./PokeWRI";
-import PokemonEvolution from "./PokemonEvolution";
 import PokemonForms from "./PokemonForms";
+import PokemonEvolution from "./PokemonEvolution";
+import { Tab } from "semantic-ui-react";
+import { HorizontalBar } from "react-chartjs-2";
 
 const PokemonTabs = ({ tabs }) => {
   const [chartData, setChart] = useState({});
