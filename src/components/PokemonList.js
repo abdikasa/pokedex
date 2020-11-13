@@ -51,7 +51,7 @@ const PokemonList = ({ pokemons, setSelectedPoke }) => {
                 <div className="icons">
                   <Suspense
                     fallback={
-                      <div class="ui active centered inline loader"></div>
+                      <div className="ui active centered inline loader"></div>
                     }
                   >
                     <PokemonTypes
