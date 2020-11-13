@@ -1,5 +1,14 @@
 import React from "react";
-import { imageId } from "../usefulFunctions.js";
+
+const imageId = (id) => pad(id);
+
+const pad = (number) => {
+  let str = "" + number;
+  while (str.length < 3) {
+    str = "0" + str;
+  }
+  return str;
+};
 
 const PokemonImage = ({
   className = "",

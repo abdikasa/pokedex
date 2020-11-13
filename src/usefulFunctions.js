@@ -2,10 +2,12 @@ import React from "react";
 import PokemonImage from "./components/PokemonImage";
 
 const capitalize = (name) => name.slice(0, 1).toUpperCase() + name.slice(1);
-const imageId = (id) => pad(id);
 const getID = (url, regex) => {
   return Number(url.match(regex)[1]);
 };
+
+const imageId = (id) => pad(id);
+
 const pad = (number) => {
   let str = "" + number;
   while (str.length < 3) {
