@@ -1,5 +1,4 @@
 import React, { lazy, Suspense } from "react";
-// import { Tab } from "semantic-ui-react";
 
 const Tab = lazy(() =>
   import("semantic-ui-react").then((mod) => ({
