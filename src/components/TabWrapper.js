@@ -1,18 +1,17 @@
 import React, { lazy, Suspense } from "react";
-// import { Tab } from "semantic-ui-react";
 
 const Tab = lazy(() =>
   import("semantic-ui-react").then((mod) => ({
-    default: mod.Tab.Pane,
+    default: mod.Tab,
   }))
 );
 
-const TabHelper = ({ children, isAttached }) => {
+const TabWrapper = ({ menu, panes }) => {
   return (
     <Suspense fallback={<div></div>}>
-      <Tab attached={isAttached}>{children}</Tab>
+      <Tab menu={menu} panes={panes}></Tab>
     </Suspense>
   );
 };
 
-export default TabHelper;
+export default TabWrapper;

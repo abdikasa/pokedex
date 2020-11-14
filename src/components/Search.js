@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 const Search = ({ className, onSearch }) => {
   const [val, setVal] = useState("");

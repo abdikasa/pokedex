@@ -1,5 +1,3 @@
-import React from "react";
-
 const imageId = (id) => pad(id);
 
 const pad = (number) => {

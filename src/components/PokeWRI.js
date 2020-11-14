@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import { lazy, Suspense } from "react";
 import allTypes from "../allTypes";
 import { mergeDupes, capitalize } from "../usefulFunctions";
 

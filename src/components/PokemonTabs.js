@@ -1,11 +1,11 @@
-import React, { useState, useEffect, lazy, Suspense } from "react";
+import { useState, useEffect } from "react";
 import TabHelper from "./TabHelper";
 import PokemonAbilities from "./PokemonAbilities";
 import PokeWRI from "./PokeWRI";
 import PokemonForms from "./PokemonForms";
 import PokemonEvolution from "./PokemonEvolution";
-import { Tab } from "semantic-ui-react";
 import { HorizontalBar } from "react-chartjs-2";
+import TabWrapper from "./TabWrapper";
 
 const PokemonTabs = ({ tabs }) => {
   const [chartData, setChart] = useState({});
@@ -139,7 +139,7 @@ const PokemonTabs = ({ tabs }) => {
   ];
 
   return (
-    <Tab
+    <TabWrapper
       menu={{
         secondary: true,
         pointing: true,

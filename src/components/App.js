@@ -1,10 +1,10 @@
-import React, { useState, useEffect, lazy, Suspense } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import Pokeapi from "../api/Pokeapi";
-import Route from "./Route";
-import Search from "./Search";
 import "../css/all.css";
 import "../types-imgs/type_style.css";
 
+const Search = lazy(() => import("./Search"));
+const Route = lazy(() => import("./Route"));
 const PokemonList = lazy(() => import("./PokemonList"));
 const PokeProfile = lazy(() => import("./PokeProfile"));
 
@@ -59,30 +59,42 @@ const App = () => {
 
   return (
     <div className="ui container">
-      <Route path={`/`}>
-        <>
-          <div style={{ marginTop: "2rem" }}>
-            <h1>Pokédex</h1>
-            <Search
-              className="ui fluid icon input search pkmn_search"
-              onSearch={search}
-            ></Search>
-          </div>
-          <div className="ui grid pokedex-container grid">
-            <Suspense fallback={<div>Loading all pokemon...</div>}>
-              <PokemonList
-                pokemons={pokemons}
-                setSelectedPoke={setSelectedPoke}
-              ></PokemonList>
+      <Suspense fallback={<div></div>}>
+        <Route path={`/`}>
+          <>
+            <Suspense fallback={<div />}>
+              <div style={{ marginTop: "2rem" }}>
+                <h1>Pokédex</h1>
+                <Search
+                  className="ui fluid icon input search pkmn_search"
+                  onSearch={search}
+                ></Search>
+              </div>
             </Suspense>
-          </div>
-        </>
-      </Route>
-      <Route path={`/pokemon`}>
-        <Suspense fallback={<div>Loading pokemon...</div>}>
-          <PokeProfile pokemon={selectedPoke}></PokeProfile>
-        </Suspense>
-      </Route>
+            <div className="ui grid pokedex-container grid">
+              <Suspense
+                fallback={
+                  <div className="ui center aligned segment">
+                    Loading all pokemon...
+                  </div>
+                }
+              >
+                <PokemonList
+                  pokemons={pokemons}
+                  setSelectedPoke={setSelectedPoke}
+                ></PokemonList>
+              </Suspense>
+            </div>
+          </>
+        </Route>
+      </Suspense>
+      <Suspense fallback={<div></div>}>
+        <Route path={`/pokemon`}>
+          <Suspense fallback={<div>Loading pokemon...</div>}>
+            <PokeProfile pokemon={selectedPoke}></PokeProfile>
+          </Suspense>
+        </Route>
+      </Suspense>
     </div>
   );
 };

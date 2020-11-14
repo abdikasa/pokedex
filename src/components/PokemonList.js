@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from "react";
-import Link from "./Link";
 import { checkPokemonArray } from "../usefulFunctions";
 
+const Link = lazy(() => import("./Link"));
 const PokemonImage = lazy(() => import("./PokemonImage"));
 const PokemonTypes = lazy(() => import("./PokemonTypes"));
 
@@ -39,43 +39,47 @@ const PokemonList = ({ pokemons, setSelectedPoke }) => {
     })
     .map(({ data }) => {
       return (
-        <React.Fragment key={data.id}>
-          <Link
-            href={`/pokemon/${data.id}`}
-            className={`five wide mobile three wide tablet two wide computer column ${data.types[0].type.name} poke-all ${data.name}`}
-            onClick={(e) => onButtonClick(e, data, `/pokemon/${data.id}`)}
-          >
-            <div>
-              <h2 id={"pkmn_name"}>{data.name}</h2>
-              <div className="icons_poke">
-                <div className="icons">
-                  <Suspense
-                    fallback={
-                      <div className="ui active centered inline loader"></div>
-                    }
-                  >
-                    <PokemonTypes
-                      types={data.types}
-                      className="icon_wrap"
-                    ></PokemonTypes>
-                  </Suspense>
-                </div>
-                <div className="poke">
-                  <Suspense
-                    fallback={
-                      <div class="ui active centered inline loader"></div>
-                    }
-                  >
-                    <PokemonImage
-                      pokemon={data}
-                      className="thumb"
-                    ></PokemonImage>
-                  </Suspense>
+        <Suspense
+          fallback={<div className="ui active centered inline loader" />}
+        >
+          <React.Fragment key={data.id}>
+            <Link
+              href={`/pokemon/${data.id}`}
+              className={`five wide mobile three wide tablet two wide computer column ${data.types[0].type.name} poke-all ${data.name}`}
+              onClick={(e) => onButtonClick(e, data, `/pokemon/${data.id}`)}
+            >
+              <div>
+                <h2 id={"pkmn_name"}>{data.name}</h2>
+                <div className="icons_poke">
+                  <div className="icons">
+                    <Suspense
+                      fallback={
+                        <div className="ui active centered inline loader"></div>
+                      }
+                    >
+                      <PokemonTypes
+                        types={data.types}
+                        className="icon_wrap"
+                      ></PokemonTypes>
+                    </Suspense>
+                  </div>
+                  <div className="poke">
+                    <Suspense
+                      fallback={
+                        <div className="ui active centered inline loader"></div>
+                      }
+                    >
+                      <PokemonImage
+                        pokemon={data}
+                        className="thumb"
+                      ></PokemonImage>
+                    </Suspense>
+                  </div>
                 </div>
               </div>
-            </div>
-          </Link>
-        </React.Fragment>
+            </Link>
+          </React.Fragment>
+        </Suspense>
       );
     });
 

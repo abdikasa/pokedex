@@ -1,7 +1,7 @@
-import React, { lazy, Suspense } from "react";
+import { lazy, Suspense } from "react";
 import PokemonTabs from "./PokemonTabs";
-import Link from "./Link";
 
+const Link = lazy(() => import("./Link"));
 const PokemonImage = lazy(() => import("./PokemonImage"));
 const PokemonTypes = lazy(() => import("./PokemonTypes"));
 
@@ -39,25 +39,30 @@ const PokemonHeader = ({ pokemon }) => {
   return (
     <>
       <div className={`center-x column ${poke.types[0].type.name}`}>
-        <Link
-          href={`/`}
-          onClick={(e) => {
-            e.preventDefault();
-            if (e.metaKey || e.ctrlKey) {
-              return;
-            }
-            window.history.pushState({}, "", "/");
-            //informs Route Component that url has changed.
-            const navEvent = new PopStateEvent("popstate");
-            window.dispatchEvent(navEvent);
-          }}
-        >
-          <div style={{ margin: "1rem" }} className="ui icon buttons back-btn">
-            <button className="ui button">
-              <i className="left chevron icon"></i>
-            </button>
-          </div>
-        </Link>
+        <Suspense fallback={<div></div>}>
+          <Link
+            href={`/`}
+            onClick={(e) => {
+              e.preventDefault();
+              if (e.metaKey || e.ctrlKey) {
+                return;
+              }
+              window.history.pushState({}, "", "/");
+              //informs Route Component that url has changed.
+              const navEvent = new PopStateEvent("popstate");
+              window.dispatchEvent(navEvent);
+            }}
+          >
+            <div
+              style={{ margin: "1rem" }}
+              className="ui icon buttons back-btn"
+            >
+              <button className="ui button">
+                <i className="left chevron icon"></i>
+              </button>
+            </div>
+          </Link>
+        </Suspense>
         <div className="d-flex mt name_id">
           <h1>{capitalize(poke.name)}</h1>
           <h2>

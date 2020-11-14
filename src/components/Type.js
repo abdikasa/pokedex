@@ -1,4 +1,3 @@
-import React from "react";
 import Grass from "../types-imgs/grass.svg";
 import Fire from "../types-imgs/fire.svg";
 import Bug from "../types-imgs/bug.svg";

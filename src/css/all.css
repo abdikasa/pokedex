@@ -40,7 +40,6 @@ box-sizing: border-box;
 
 .poke-all:hover {
   background-position: 0 0;
-  font-size: 2rem;
   color: #fff;
   text-shadow: 0px 0px 7px #000;
 }
@@ -168,6 +167,43 @@ box-sizing: border-box;
   max-height: 100%;
   height: auto;
   width: 5.1rem;
+}
+
+
+.poke-all::before {
+	position: absolute;
+  top: 0;
+  right:0;
+	z-index: 2;
+	display: block;
+	content: '';
+	width: 30%;
+	height: 100%;
+	background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,.3) 100%);
+	background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,.3) 100%);
+	/* -webkit-transform: skewX(-25deg);
+	transform: skewX(-25deg); */
+}
+.poke-all:hover::before {
+	-webkit-animation: shine .55s;
+	animation: shine .55s infinite;
+}
+@-webkit-keyframes shine {
+	0% {
+    right: 100%;
+  }
+  
+  100% {
+    right: 0%;
+  }
+}
+@keyframes shine {
+	0% {
+		right: 100%;
+  }
+  100% {
+    right: 0%;
+  }
 }
 
 .icon_wrap {
@@ -379,7 +415,3 @@ margin-top:5rem;
   }
 }
 
-
-@media (min-width: 360px) {
-
-}
