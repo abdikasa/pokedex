@@ -54,7 +54,9 @@ const PokeWRI = ({ poke, headerText = "" }) => {
       );
     }
     return (
-      <Suspense fallback={<div class="ui active centered inline loader"></div>}>
+      <Suspense
+        fallback={<div className="ui active centered inline loader"></div>}
+      >
         <PokemonTypes
           types={myTypes}
           className="ui label type wri"
