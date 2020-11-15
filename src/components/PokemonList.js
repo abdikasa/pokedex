@@ -40,9 +40,10 @@ const PokemonList = ({ pokemons, setSelectedPoke }) => {
     .map(({ data }) => {
       return (
         <Suspense
+          key={data.id}
           fallback={<div className="ui active centered inline loader" />}
         >
-          <React.Fragment key={data.id}>
+          <React.Fragment>
             <Link
               href={`/pokemon/${data.id}`}
               className={`five wide mobile three wide tablet two wide computer column ${data.types[0].type.name} poke-all ${data.name}`}

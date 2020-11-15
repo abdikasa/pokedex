@@ -81,7 +81,9 @@ const PokemonHeader = ({ pokemon }) => {
         <div className="p-body">
           <div className={`mt header_types`}>
             <Suspense
-              fallback={<div class="ui active centered inline loader"></div>}
+              fallback={
+                <div className="ui active centered inline loader"></div>
+              }
             >
               <PokemonTypes
                 types={poke.types}

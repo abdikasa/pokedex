@@ -2,11 +2,10 @@ import { useState, useEffect, lazy, Suspense } from "react";
 import Pokeapi from "../api/Pokeapi";
 import "../css/all.css";
 import "../types-imgs/type_style.css";
-
+import PokeProfile from "./PokeProfile";
 const Search = lazy(() => import("./Search"));
 const Route = lazy(() => import("./Route"));
 const PokemonList = lazy(() => import("./PokemonList"));
-const PokeProfile = lazy(() => import("./PokeProfile"));
 
 const App = () => {
   const [pokemons, setPokemons] = useState([]);
@@ -88,13 +87,11 @@ const App = () => {
           </>
         </Route>
       </Suspense>
-      <Suspense fallback={<div></div>}>
-        <Route path={`/pokemon`}>
-          <Suspense fallback={<div>Loading pokemon...</div>}>
-            <PokeProfile pokemon={selectedPoke}></PokeProfile>
-          </Suspense>
-        </Route>
-      </Suspense>
+      <Route path={`/pokemon`}>
+        <Suspense fallback={<div></div>}>
+          <PokeProfile pokemon={selectedPoke}></PokeProfile>
+        </Suspense>
+      </Route>
     </div>
   );
 };

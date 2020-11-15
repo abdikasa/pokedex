@@ -1,7 +1,7 @@
 import { useState, useEffect, lazy, Suspense } from "react";
 import Pokeapi from "../api/Pokeapi";
-import Spinner from "./Spinner";
 
+const Spinner = lazy(() => import("./Spinner"));
 const PokemonHeader = lazy(() => import("./PokemonHeader"));
 
 const PokeProfile = ({ pokemon }) => {
@@ -61,11 +61,7 @@ const PokeProfile = ({ pokemon }) => {
   const renderContent = () => {
     if (poke === null) {
       console.log("spinning boiii");
-      return (
-        <Suspense
-          fallback={<Spinner text="Loading Pokemon..."></Spinner>}
-        ></Suspense>
-      );
+      return <Spinner text="Loading Pokemon..."></Spinner>;
     } else {
       console.log("poke value", poke);
       return (
