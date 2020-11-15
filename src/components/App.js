@@ -19,7 +19,7 @@ const App = () => {
   const search = (q) => {
     clearTimeout(timer);
     const searched = [...allPokemon].filter(
-      (pokemon) => pokemon.data.name.indexOf(q) > -1
+      (pokemon) => pokemon.data.name.toLowerCase().indexOf(q.toLowerCase()) > -1
     );
 
     timer = setTimeout(() => {
