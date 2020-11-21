@@ -21,20 +21,6 @@ const PokeProfile = ({ pokemon }) => {
     loadPokemon();
   }, []);
 
-  const validate = () => {
-    if (pokemon === null) {
-      if (typeof Number(hash) === "number") {
-        if (Number(hash) > 0 && Number(hash) <= 807) {
-          return false;
-        }
-        return true;
-      }
-      return true;
-    } else {
-      return false;
-    }
-  };
-
   const pkmnSpecies = () => {
     const bio = Pokeapi.get(`/pokemon-species/${hash}`);
     return Promise.resolve(bio);
