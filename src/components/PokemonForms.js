@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 import { checkForms, capitalize } from "../usefulFunctions";
 
 const PokemonImage = lazy(() => import("./PokemonImage"));
@@ -19,15 +19,16 @@ const PokemonForms = ({ pokemon }) => {
       if (Object.keys(forms).length === 1) className = "medium";
       formsMap.push(
         <Suspense
-          fallback={<div class="ui active centered inline loader"></div>}
+          key={`${pokemon.name}-${k}-${pokemon.id}`}
+          fallback={<div className="ui active centered inline loader"></div>}
         >
-          <>
+          <React.Fragment key={`${pokemon.name}-${k}-${pokemon.id}`}>
             <PokemonImage
               className={`ui ${className} image mr`}
               pokemon={pokemon[0]}
               forms={`-${k}`}
             ></PokemonImage>
-          </>
+          </React.Fragment>
         </Suspense>
       );
     }

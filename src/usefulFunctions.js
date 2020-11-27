@@ -493,7 +493,7 @@ const displayPokemon = (arr, length, split = 1) => {
     return arr.map((pokemon, i) => {
       console.log(arr, pokemon, i, length);
       return (
-        <>
+        <React.Fragment key={pokemon.id}>
           <PokemonImage
             className="ui tiny image mr"
             pokemon={pokemon}
@@ -501,7 +501,7 @@ const displayPokemon = (arr, length, split = 1) => {
           {i === length - 1 ? null : (
             <i className="long arrow alternate right icon"></i>
           )}
-        </>
+        </React.Fragment>
       );
     });
   } else if (length === 5) {
