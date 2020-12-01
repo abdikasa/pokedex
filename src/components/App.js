@@ -1,4 +1,4 @@
-import { useState, useEffect, lazy, Suspense } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import Pokeapi from "../api/Pokeapi";
 import "../css/all.css";
 import "../types-imgs/type_style.css";
@@ -7,30 +7,31 @@ const Search = lazy(() => import("./Search"));
 const Route = lazy(() => import("./Route"));
 const PokemonList = lazy(() => import("./PokemonList"));
 
-const App = () => {
-  const [pokemons, setPokemons] = useState([]);
-  const [selectedPoke, setSelectedPoke] = useState(null);
-  const [allPokemon, setAll] = useState([]);
-  let timer = null;
-  useEffect(() => {
-    loadPokemon();
-  }, []);
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { pokemons: [], selectedPoke: null };
+  }
 
-  const search = (q) => {
+  componentDidMount = () => {
+    this.loadPokemon();
+  };
+
+  search = (q) => {
+    let timer = null;
     clearTimeout(timer);
-    const searched = [...allPokemon].filter(
+    const searched = [...this.state.pokemons].filter(
       (pokemon) => pokemon.data.name.toLowerCase().indexOf(q.toLowerCase()) > -1
     );
 
     timer = setTimeout(() => {
-      setPokemons(searched);
+      this.setState({ pokemons: searched });
     }, 600);
   };
 
-  let arr = [];
-  const loadPokemon = (
-    defaultList = Array.from({ length: 807 }, (_, i) => i + 1)
-  ) => {
+  loadPokemon = (defaultList = Array.from({ length: 2 }, (_, i) => i + 1)) => {
+    let arr = [];
+
     function getPokemons(id) {
       return new Promise((resolve, reject) => {
         resolve(Pokeapi.get("/pokemon/" + id));
@@ -49,51 +50,56 @@ const App = () => {
         return Promise.all(arr);
       })
       .then((arr) => {
-        setPokemons(arr);
-        if (arr.length >= 807) {
-          setAll(arr);
-        }
+        //setPokemons(arr);
+        this.setState({ pokemons: arr });
+        // if (arr.length >= 807) {
+        //   setAll(arr);
+        // }
       });
   };
 
-  return (
-    <div className="ui container">
-      <Suspense fallback={<div></div>}>
-        <Route path={`/`}>
-          <>
-            <Suspense fallback={<div />}>
-              <div style={{ marginTop: "2rem" }}>
-                <h1>Pokédex</h1>
-                <Search
-                  className="ui fluid icon input search pkmn_search"
-                  onSearch={search}
-                ></Search>
-              </div>
-            </Suspense>
-            <div className="ui grid pokedex-container grid">
-              <Suspense
-                fallback={
-                  <div className="ui center aligned segment">
-                    Loading all pokemon...
-                  </div>
-                }
-              >
-                <PokemonList
-                  pokemons={pokemons}
-                  setSelectedPoke={setSelectedPoke}
-                ></PokemonList>
-              </Suspense>
-            </div>
-          </>
-        </Route>
-      </Suspense>
-      <Route path={`/pokemon`}>
+  render() {
+    return (
+      <div className="ui container">
         <Suspense fallback={<div></div>}>
-          <PokeProfile pokemon={selectedPoke}></PokeProfile>
+          <Route path={`/`}>
+            <>
+              <Suspense fallback={<div />}>
+                <div style={{ marginTop: "2rem" }}>
+                  <h1>Pokédex</h1>
+                  <Search
+                    className="ui fluid icon input search pkmn_search"
+                    onSearch={this.search}
+                  ></Search>
+                </div>
+              </Suspense>
+              <div className="ui grid pokedex-container grid">
+                <Suspense
+                  fallback={
+                    <div className="ui center aligned segment">
+                      Loading all pokemon...
+                    </div>
+                  }
+                >
+                  <PokemonList
+                    pokemons={this.state.pokemons}
+                    setSelectedPoke={(poke) =>
+                      this.setState({ selectedPoke: poke })
+                    }
+                  ></PokemonList>
+                </Suspense>
+              </div>
+            </>
+          </Route>
         </Suspense>
-      </Route>
-    </div>
-  );
-};
+        <Route path={`/pokemon`}>
+          <Suspense fallback={<div></div>}>
+            <PokeProfile pokemon={this.state.selectedPoke}></PokeProfile>
+          </Suspense>
+        </Route>
+      </div>
+    );
+  }
+}
 
 export default App;
