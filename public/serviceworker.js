@@ -53,7 +53,6 @@ const urlsToCache = [
   "../src/css/all.css",
   "../src/types-imgs/type_style.css",
   "https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css",
-  "https://db.onlinewebfonts.com/c/faa9c8362473bf8b1d2886cfb5962735?family=AlleynW01-Regular",
 ];
 
 const self = this;
