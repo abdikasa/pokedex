@@ -1,40 +1,17 @@
-import { useEffect, useState } from "react";
+import React from "react";
 import { capitalize } from "../usefulFunctions.js";
 import PokemonAbility from "./PokemonAbility";
-import Pokeapi from "../api/Pokeapi";
+import { getAbilities } from "../action";
+import { connect } from "react-redux";
 
-const PokemonAbilities = ({ pokemon }) => {
-  const [abilities, setAbilities] = useState(null);
-  const getAbility = (data) =>
-    pokemon.abilities.map((poke) => {
-      return poke.ability[data];
-    });
+class PokemonAbilities extends React.Component {
+  componentDidMount = () => {
+    this.props.getAbilities();
+  };
 
-  useEffect(() => {
-    let mounted = true;
-    let pokeAbilities = getAbility("name");
-    const getAbilityDesc = async () => {
-      let data = await Promise.all(
-        pokeAbilities.map((ability) => {
-          return Pokeapi.get(`/ability/${ability}`);
-        })
-      );
-      data = data
-        .map((ability) => ability.data["effect_entries"])
-        .flat()
-        .filter((ability) => ability.language.name === "en")
-        .map((ability) => ability.effect);
-      if (mounted) {
-        setAbilities({ name: getAbility("name"), description: data });
-      }
-    };
-    getAbilityDesc();
-
-    return () => (mounted = false);
-  }, []);
-
-  const renderContent = () => {
-    if (!abilities) {
+  renderContent = () => {
+    const abilities = this.props.abilities;
+    if (abilities.length === 0) {
       return null;
     } else {
       let array = [];
@@ -43,7 +20,6 @@ const PokemonAbilities = ({ pokemon }) => {
         result[abilities.name[i]] = abilities.description[i];
         array.push(result);
       }
-
       return (
         <>
           <PokemonAbility abilities={array}></PokemonAbility>
@@ -52,12 +28,19 @@ const PokemonAbilities = ({ pokemon }) => {
     }
   };
 
-  return (
-    <div className={`ui segment center aligned pokemon_abilites`}>
-      <h3>{capitalize(pokemon.name)}'s Abilities</h3>
-      <div className="ui items">{renderContent()}</div>
-    </div>
-  );
+  render() {
+    return (
+      <div className={`ui segment center aligned pokemon_abilites`}>
+        <h3>{capitalize(this.props.pokemon.name)}'s Abilities</h3>
+        <div className="ui items">{this.renderContent()}</div>
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = (state) => {
+  console.log("abilities", state.abilities);
+  return { abilities: state.abilities };
 };
 
-export default PokemonAbilities;
+export default connect(mapStateToProps, { getAbilities })(PokemonAbilities);

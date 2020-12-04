@@ -1,18 +1,8 @@
 import { lazy, Suspense } from "react";
 import allTypes from "../allTypes";
-import { mergeDupes, capitalize } from "../usefulFunctions";
+import { mergeDupes, capitalize, getTypes } from "../usefulFunctions";
 
 const PokemonTypes = lazy(() => import("./PokemonTypes"));
-
-let getTypes = (poke, allTypes) => {
-  let types = poke.types.map(({ type }) => {
-    return allTypes.find(({ name }) => {
-      return type.name.toLowerCase() === name.toLowerCase();
-    });
-  });
-  types.sort((a, b) => a - b);
-  return types;
-};
 
 const PokeWRI = ({ poke, headerText = "" }) => {
   let myTypes = getTypes(poke, allTypes());
