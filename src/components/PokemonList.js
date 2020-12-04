@@ -6,19 +6,6 @@ const PokemonImage = lazy(() => import("./PokemonImage"));
 const PokemonTypes = lazy(() => import("./PokemonTypes"));
 
 const PokemonList = ({ pokemons, setSelectedPoke }) => {
-  const onButtonClick = (event, data, href) => {
-    event.preventDefault();
-    if (event.metaKey || event.ctrlKey) {
-      return;
-    }
-
-    setSelectedPoke(data);
-    window.history.pushState({}, "", href);
-    //informs Route Component that url has changed.
-    const navEvent = new PopStateEvent("popstate");
-    window.dispatchEvent(navEvent);
-  };
-
   const renderPokemon = () => {
     if (!checkPokemonArray(pokemons)) {
       return (
@@ -35,9 +22,9 @@ const PokemonList = ({ pokemons, setSelectedPoke }) => {
 
   const pokeMap = pokemons
     .sort((a, b) => {
-      return a.data.id - b.data.id;
+      return a.id - b.id;
     })
-    .map(({ data }) => {
+    .map((data) => {
       return (
         <Suspense
           key={data.id}
@@ -47,7 +34,9 @@ const PokemonList = ({ pokemons, setSelectedPoke }) => {
             <Link
               href={`/pokemon/${data.id}`}
               className={`five wide mobile three wide tablet two wide computer column ${data.types[0].type.name} poke-all ${data.name}`}
-              onClick={(e) => onButtonClick(e, data, `/pokemon/${data.id}`)}
+              onClick={(e) => {
+                setSelectedPoke(e, data, `/pokemon/${data.id}`);
+              }}
             >
               <div>
                 <h2 id={"pkmn_name"}>{data.name}</h2>

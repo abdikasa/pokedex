@@ -5,6 +5,10 @@ padding: 0;
 box-sizing: border-box;
 }
 
+body {
+  transition: background-color ease-in-out 0.3s;
+}
+
 .mr {
   margin-right:1rem;
   margin-left:1rem;
@@ -16,7 +20,7 @@ box-sizing: border-box;
 
 /**
 :not(i) {
-  font-family: "AlleynW01-Regular"  !important;
+  font-family: "Nunito"  !important;
 }
 */
 

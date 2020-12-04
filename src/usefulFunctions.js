@@ -1,4 +1,5 @@
 import React from "react";
+import Pokeapi from "./api/Pokeapi";
 import PokemonImage from "./components/PokemonImage";
 
 const capitalize = (name) => name.slice(0, 1).toUpperCase() + name.slice(1);
@@ -615,7 +616,28 @@ const checkPokemonArray = (pokemons) => {
   return true;
 };
 
+const delay = (t) => new Promise((resolve) => setTimeout(resolve, t));
+
+const getPokemon = async (pokemon, path, regex) => {
+  const id = getID(pokemon.url, regex);
+  await delay(100);
+  return Pokeapi.get(`/${path}/` + id);
+};
+
+const getTypes = (poke, allTypes) => {
+  let types = poke.types.map(({ type }) => {
+    return allTypes.find(({ name }) => {
+      return type.name.toLowerCase() === name.toLowerCase();
+    });
+  });
+  types.sort((a, b) => a - b);
+  return types;
+};
+
 export {
+  delay,
+  getTypes,
+  getPokemon,
   removeDuplicates,
   duplicateCheck,
   getID,
