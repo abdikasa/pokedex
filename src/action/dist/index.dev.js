@@ -287,7 +287,8 @@ var setChartData = function setChartData(chartObject) {
 
 exports.setChartData = setChartData;
 
-var setSearch = function setSearch(timer, q) {
+var setSearch = function setSearch(timer) {
+  var q = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
   return function (dispatch, getState) {
     clearTimeout(timer);
 
@@ -300,7 +301,7 @@ var setSearch = function setSearch(timer, q) {
         type: "SEARCHED",
         payload: searched
       });
-    }, 600); //dispatch({ type: "SEARCHED", payload: [...getState().getAll] });
+    }, 600);
   };
 };
 
