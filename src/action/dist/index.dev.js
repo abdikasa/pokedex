@@ -287,9 +287,8 @@ var setChartData = function setChartData(chartObject) {
 
 exports.setChartData = setChartData;
 
-var setSearch = function setSearch(q) {
+var setSearch = function setSearch(timer, q) {
   return function (dispatch, getState) {
-    var timer = null;
     clearTimeout(timer);
 
     var searched = _toConsumableArray(getState().getAll).filter(function (pokemon) {
