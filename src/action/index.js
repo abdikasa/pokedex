@@ -99,6 +99,8 @@ export const setSearch = (q) => (dispatch, getState) => {
     (pokemon) => pokemon.name.toLowerCase().indexOf(q.toLowerCase()) > -1
   );
 
-  dispatch({ type: "SEARCHED", payload: searched });
+  timer = setTimeout(() => {
+    dispatch({ type: "SEARCHED", payload: searched });
+  }, 600);
   //dispatch({ type: "SEARCHED", payload: [...getState().getAll] });
 };

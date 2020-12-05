@@ -296,10 +296,12 @@ var setSearch = function setSearch(q) {
       return pokemon.name.toLowerCase().indexOf(q.toLowerCase()) > -1;
     });
 
-    dispatch({
-      type: "SEARCHED",
-      payload: searched
-    }); //dispatch({ type: "SEARCHED", payload: [...getState().getAll] });
+    timer = setTimeout(function () {
+      dispatch({
+        type: "SEARCHED",
+        payload: searched
+      });
+    }, 600); //dispatch({ type: "SEARCHED", payload: [...getState().getAll] });
   };
 };
 
