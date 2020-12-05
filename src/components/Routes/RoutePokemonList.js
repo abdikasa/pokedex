@@ -1,26 +1,18 @@
 import React, { lazy, Suspense } from "react";
 import { connect } from "react-redux";
-import { fetchAll, iChooseYou } from "../../action";
+import { fetchAll, iChooseYou, setSearch } from "../../action";
+
 const Search = lazy(() => import("../Search"));
 const Route = lazy(() => import("../Route"));
 const PokemonList = lazy(() => import("../PokemonList"));
 
 class RoutePokemonList extends React.Component {
   componentDidMount = () => {
-    this.props.fetchAll();
+    (async () => {
+      await this.props.fetchAll();
+      this.props.setSearch("");
+    })();
   };
-
-  // search = (q) => {
-  //   let timer = null;
-  //   clearTimeout(timer);
-  //   const searched = [...this.props.fetchedPokemon].filter(
-  //     (pokemon) => pokemon.data.name.toLowerCase().indexOf(q.toLowerCase()) > -1
-  //   );
-
-  //   timer = setTimeout(() => {
-  //     this.setState({ pokemons: searched });
-  //   }, 600);
-  // };
 
   render() {
     return (
@@ -31,10 +23,10 @@ class RoutePokemonList extends React.Component {
               <Suspense fallback={<div />}>
                 <div style={{ marginTop: "2rem" }}>
                   <h1>Pokédex</h1>
-                  {/* <Search
+                  <Search
                     className="ui fluid icon input search pkmn_search"
-                    onSearch={this.search}
-                  ></Search> */}
+                    onSearch={this.props.setSearch}
+                  ></Search>
                 </div>
               </Suspense>
               <div className="ui grid pokedex-container grid">
@@ -46,7 +38,7 @@ class RoutePokemonList extends React.Component {
                   }
                 >
                   <PokemonList
-                    pokemons={this.props.fetchedPokemon}
+                    pokemons={this.props.searched}
                     setSelectedPoke={this.props.iChooseYou}
                   ></PokemonList>
                 </Suspense>
@@ -60,9 +52,9 @@ class RoutePokemonList extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return { fetchedPokemon: state.getAll };
+  return { fetchedPokemon: state.getAll, searched: state.searched };
 };
 
-export default connect(mapStateToProps, { fetchAll, iChooseYou })(
+export default connect(mapStateToProps, { fetchAll, iChooseYou, setSearch })(
   RoutePokemonList
 );

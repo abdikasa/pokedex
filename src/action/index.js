@@ -91,3 +91,14 @@ export const iChooseYouNew = (hash) => async (dispatch) => {
 export const setChartData = (chartObject) => (dispatch) => {
   dispatch({ type: "setChart", payload: chartObject });
 };
+
+export const setSearch = (q) => (dispatch, getState) => {
+  let timer = null;
+  clearTimeout(timer);
+  let searched = [...getState().getAll].filter(
+    (pokemon) => pokemon.name.toLowerCase().indexOf(q.toLowerCase()) > -1
+  );
+
+  dispatch({ type: "SEARCHED", payload: searched });
+  //dispatch({ type: "SEARCHED", payload: [...getState().getAll] });
+};

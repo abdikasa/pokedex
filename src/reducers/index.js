@@ -5,6 +5,7 @@ import bioReducer from "./bioReducer";
 import evolutionReducer from "./evolutionReducer";
 import setChartReducer from "./setChartReducer";
 import getAbilityReducer from "./getAbilityReducer";
+import filteredReducer from "./filteredReducer";
 
 export default combineReducers({
   getAll: fetchAllReducer,
@@ -13,4 +14,5 @@ export default combineReducers({
   evolution: evolutionReducer,
   chart: setChartReducer,
   abilities: getAbilityReducer,
+  searched: filteredReducer,
 });

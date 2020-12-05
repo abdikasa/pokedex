@@ -19,6 +19,8 @@ var _setChartReducer = _interopRequireDefault(require("./setChartReducer"));
 
 var _getAbilityReducer = _interopRequireDefault(require("./getAbilityReducer"));
 
+var _filteredReducer = _interopRequireDefault(require("./filteredReducer"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var _default = (0, _redux.combineReducers)({
@@ -27,7 +29,8 @@ var _default = (0, _redux.combineReducers)({
   bio: _bioReducer["default"],
   evolution: _evolutionReducer["default"],
   chart: _setChartReducer["default"],
-  abilities: _getAbilityReducer["default"]
+  abilities: _getAbilityReducer["default"],
+  searched: _filteredReducer["default"]
 });
 
 exports["default"] = _default;

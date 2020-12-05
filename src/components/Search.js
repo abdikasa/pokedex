@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Search = ({ className, onSearch }) => {
   const [val, setVal] = useState("");
+
   return (
     <div className={className}>
       <input

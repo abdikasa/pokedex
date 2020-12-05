@@ -3,13 +3,21 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.setChartData = exports.iChooseYouNew = exports.iChooseYou = exports.fetchBio = exports.fetchEvolution = exports.fetchBioEvolution = exports.fetchAll = exports.getAbilities = void 0;
+exports.setSearch = exports.setChartData = exports.iChooseYouNew = exports.iChooseYou = exports.fetchBio = exports.fetchEvolution = exports.fetchBioEvolution = exports.fetchAll = exports.getAbilities = void 0;
 
 var _Pokeapi = _interopRequireDefault(require("../api/Pokeapi"));
 
 var _usefulFunctions = require("../usefulFunctions");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
 var getAbilities = function getAbilities() {
   return function _callee(dispatch, getState) {
@@ -278,3 +286,21 @@ var setChartData = function setChartData(chartObject) {
 };
 
 exports.setChartData = setChartData;
+
+var setSearch = function setSearch(q) {
+  return function (dispatch, getState) {
+    var timer = null;
+    clearTimeout(timer);
+
+    var searched = _toConsumableArray(getState().getAll).filter(function (pokemon) {
+      return pokemon.name.toLowerCase().indexOf(q.toLowerCase()) > -1;
+    });
+
+    dispatch({
+      type: "SEARCHED",
+      payload: searched
+    }); //dispatch({ type: "SEARCHED", payload: [...getState().getAll] });
+  };
+};
+
+exports.setSearch = setSearch;
