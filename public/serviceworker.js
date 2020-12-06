@@ -35,7 +35,7 @@ const typeNames = [
 ];
 
 const images = (string) => {
-  return Array.from({ length: 3 }, (_, i) => i + 1).map((num) => {
+  return Array.from({ length: 807 }, (_, i) => i + 1).map((num) => {
     return string + imageId(num);
   });
 };

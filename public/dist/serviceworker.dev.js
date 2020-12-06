@@ -32,7 +32,7 @@ var typeNames = ["bug", "dark", "dragon", "electric", "fairy", "flying", "ghost"
 
 var images = function images(string) {
   return Array.from({
-    length: 3
+    length: 807
   }, function (_, i) {
     return i + 1;
   }).map(function (num) {

@@ -74,7 +74,7 @@ function fetchPokemonHelper(id) {
 
 var fetchAll = function fetchAll() {
   var defaultList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : Array.from({
-    length: 3
+    length: 807
   }, function (_, i) {
     return i + 1;
   });

@@ -35,7 +35,7 @@ function fetchPokemonHelper(id) {
 }
 
 export const fetchAll = (
-  defaultList = Array.from({ length: 3 }, (_, i) => i + 1)
+  defaultList = Array.from({ length: 807 }, (_, i) => i + 1)
 ) => async (dispatch, getState) => {
   let arr = [];
   let result = defaultList.reduce((accumulatorPromise, nextID) => {
