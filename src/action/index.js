@@ -28,16 +28,41 @@ export const getAbilities = () => async (dispatch, getState) => {
   });
 };
 
-export const fetchAll = () => async (dispatch, getState) => {
-  const response = await Pokeapi.get(`/pokemon/?offset=0&limit=807`);
-  const unresolved = response.data.results.map((pokemon) =>
-    getPokemon(pokemon, "pokemon", /\/pokemon\/(\d+)\//)
-  );
-  const results = (await Promise.all(unresolved)).map(
-    (pokemon) => pokemon.data
-  );
-  console.log(results);
-  dispatch({ type: "FETCH_ALL", payload: results });
+function fetchPokemonHelper(id) {
+  return new Promise((resolve, reject) => {
+    resolve(Pokeapi.get("/pokemon/" + id));
+  });
+}
+
+export const fetchAll = (
+  defaultList = Array.from({ length: 3 }, (_, i) => i + 1)
+) => async (dispatch, getState) => {
+  let arr = [];
+  let result = defaultList.reduce((accumulatorPromise, nextID) => {
+    return accumulatorPromise.then(() => {
+      arr = arr.concat(fetchPokemonHelper(nextID));
+      return arr;
+    });
+  }, Promise.resolve());
+
+  result.then(async () => {
+    arr = (await Promise.all(arr)).map((pokemon) => pokemon.data);
+    console.log("ran again", arr);
+    dispatch({ type: "FETCH_ALL", payload: arr });
+    if (getState().searched.length === 0) {
+      dispatch({ type: "SEARCHED", payload: arr });
+    }
+  });
+
+  // const response = await Pokeapi.get(`/pokemon/?offset=0&limit=3`);
+  // const unresolved = response.data.results.map((pokemon) =>
+  //   getPokemon(pokemon, "pokemon", /\/pokemon\/(\d+)\//)
+  // );
+  // const results = (await Promise.all(unresolved)).map(
+  //   (pokemon) => pokemon.data
+  // );
+  // console.log(results);
+  // dispatch({ type: "FETCH_ALL", payload: results });
 };
 
 export const fetchBioEvolution = () => async (dispatch, getState) => {
@@ -92,7 +117,7 @@ export const setChartData = (chartObject) => (dispatch) => {
   dispatch({ type: "setChart", payload: chartObject });
 };
 
-export const setSearch = (timer, q = "") => (dispatch, getState) => {
+export const setSearch = (timer, q) => (dispatch, getState) => {
   clearTimeout(timer);
   let searched = [...getState().getAll].filter(
     (pokemon) => pokemon.name.toLowerCase().indexOf(q.toLowerCase()) > -1
@@ -100,5 +125,5 @@ export const setSearch = (timer, q = "") => (dispatch, getState) => {
 
   timer = setTimeout(() => {
     dispatch({ type: "SEARCHED", payload: searched });
-  }, 600);
+  }, 500);
 };

@@ -1,0 +1,22 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var _default = function _default() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  console.log(state);
+
+  switch (action.type) {
+    case "FETCH_ALL":
+      return action.payload;
+
+    default:
+      return state;
+  }
+};
+
+exports["default"] = _default;

@@ -9,9 +9,16 @@ const PokemonList = lazy(() => import("../PokemonList"));
 class RoutePokemonList extends React.Component {
   componentDidMount = () => {
     (async () => {
-      await this.props.fetchAll();
-      this.props.setSearch("");
+      this.props.fetchAll();
+      //this.props.setSearch("");
     })();
+  };
+
+  search = (timer, q) => {
+    // let pokemans = this.props.fetchedPokemon.filter((pokemon) => {
+    //   return pokemon.name.toLowerCase().indexOf(q.toLowerCase()) > -1;
+    // });
+    this.props.setSearch(timer, q);
   };
 
   render() {
@@ -25,7 +32,7 @@ class RoutePokemonList extends React.Component {
                   <h1>Pokédex</h1>
                   <Search
                     className="ui fluid icon input search pkmn_search"
-                    onSearch={this.props.setSearch}
+                    onSearch={this.search}
                   ></Search>
                 </div>
               </Suspense>

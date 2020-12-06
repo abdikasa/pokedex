@@ -66,39 +66,77 @@ var getAbilities = function getAbilities() {
 
 exports.getAbilities = getAbilities;
 
+function fetchPokemonHelper(id) {
+  return new Promise(function (resolve, reject) {
+    resolve(_Pokeapi["default"].get("/pokemon/" + id));
+  });
+}
+
 var fetchAll = function fetchAll() {
-  return function _callee2(dispatch, getState) {
-    var response, unresolved, results;
-    return regeneratorRuntime.async(function _callee2$(_context2) {
+  var defaultList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : Array.from({
+    length: 3
+  }, function (_, i) {
+    return i + 1;
+  });
+  return function _callee3(dispatch, getState) {
+    var arr, result;
+    return regeneratorRuntime.async(function _callee3$(_context3) {
       while (1) {
-        switch (_context2.prev = _context2.next) {
+        switch (_context3.prev = _context3.next) {
           case 0:
-            _context2.next = 2;
-            return regeneratorRuntime.awrap(_Pokeapi["default"].get("/pokemon/?offset=0&limit=807"));
+            arr = [];
+            result = defaultList.reduce(function (accumulatorPromise, nextID) {
+              return accumulatorPromise.then(function () {
+                arr = arr.concat(fetchPokemonHelper(nextID));
+                return arr;
+              });
+            }, Promise.resolve());
+            result.then(function _callee2() {
+              return regeneratorRuntime.async(function _callee2$(_context2) {
+                while (1) {
+                  switch (_context2.prev = _context2.next) {
+                    case 0:
+                      _context2.next = 2;
+                      return regeneratorRuntime.awrap(Promise.all(arr));
 
-          case 2:
-            response = _context2.sent;
-            unresolved = response.data.results.map(function (pokemon) {
-              return (0, _usefulFunctions.getPokemon)(pokemon, "pokemon", /\/pokemon\/(\d+)\//);
-            });
-            _context2.next = 6;
-            return regeneratorRuntime.awrap(Promise.all(unresolved));
+                    case 2:
+                      _context2.t0 = function (pokemon) {
+                        return pokemon.data;
+                      };
 
-          case 6:
-            _context2.t0 = function (pokemon) {
-              return pokemon.data;
-            };
+                      arr = _context2.sent.map(_context2.t0);
+                      console.log("ran again", arr);
+                      dispatch({
+                        type: "FETCH_ALL",
+                        payload: arr
+                      });
 
-            results = _context2.sent.map(_context2.t0);
-            console.log(results);
-            dispatch({
-              type: "FETCH_ALL",
-              payload: results
-            });
+                      if (getState().searched.length === 0) {
+                        dispatch({
+                          type: "SEARCHED",
+                          payload: arr
+                        });
+                      }
 
-          case 10:
+                    case 7:
+                    case "end":
+                      return _context2.stop();
+                  }
+                }
+              });
+            }); // const response = await Pokeapi.get(`/pokemon/?offset=0&limit=3`);
+            // const unresolved = response.data.results.map((pokemon) =>
+            //   getPokemon(pokemon, "pokemon", /\/pokemon\/(\d+)\//)
+            // );
+            // const results = (await Promise.all(unresolved)).map(
+            //   (pokemon) => pokemon.data
+            // );
+            // console.log(results);
+            // dispatch({ type: "FETCH_ALL", payload: results });
+
+          case 3:
           case "end":
-            return _context2.stop();
+            return _context3.stop();
         }
       }
     });
@@ -108,46 +146,46 @@ var fetchAll = function fetchAll() {
 exports.fetchAll = fetchAll;
 
 var fetchBioEvolution = function fetchBioEvolution() {
-  return function _callee3(dispatch, getState) {
+  return function _callee4(dispatch, getState) {
     var hash, evolution;
-    return regeneratorRuntime.async(function _callee3$(_context3) {
+    return regeneratorRuntime.async(function _callee4$(_context4) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context4.prev = _context4.next) {
           case 0:
             if (getState().selected.id) {
-              _context3.next = 7;
+              _context4.next = 7;
               break;
             }
 
             hash = window.location.pathname.split("/")[2];
 
             if (!(hash.length > 0 && hash.length <= 3)) {
-              _context3.next = 7;
+              _context4.next = 7;
               break;
             }
 
             if (!(+hash > 0 && +hash <= 807)) {
-              _context3.next = 7;
+              _context4.next = 7;
               break;
             }
 
             hash = Number(hash);
-            _context3.next = 7;
+            _context4.next = 7;
             return regeneratorRuntime.awrap(dispatch(iChooseYouNew(hash)));
 
           case 7:
-            _context3.next = 9;
+            _context4.next = 9;
             return regeneratorRuntime.awrap(dispatch(fetchBio()));
 
           case 9:
             evolution = getState().bio.evolution_chain; //get evolution
 
-            _context3.next = 12;
+            _context4.next = 12;
             return regeneratorRuntime.awrap(dispatch(fetchEvolution(Number(evolution.url.match(/\/evolution-chain\/(\d+)\//)[1]))));
 
           case 12:
           case "end":
-            return _context3.stop();
+            return _context4.stop();
         }
       }
     });
@@ -157,47 +195,19 @@ var fetchBioEvolution = function fetchBioEvolution() {
 exports.fetchBioEvolution = fetchBioEvolution;
 
 var fetchEvolution = function fetchEvolution(url) {
-  return function _callee4(dispatch) {
-    var response;
-    return regeneratorRuntime.async(function _callee4$(_context4) {
-      while (1) {
-        switch (_context4.prev = _context4.next) {
-          case 0:
-            _context4.next = 2;
-            return regeneratorRuntime.awrap(_Pokeapi["default"].get("/evolution-chain/".concat(url)));
-
-          case 2:
-            response = _context4.sent;
-            dispatch({
-              type: "FETCH_EVOLUTION",
-              payload: response.data
-            });
-
-          case 4:
-          case "end":
-            return _context4.stop();
-        }
-      }
-    });
-  };
-};
-
-exports.fetchEvolution = fetchEvolution;
-
-var fetchBio = function fetchBio() {
-  return function _callee5(dispatch, getState) {
+  return function _callee5(dispatch) {
     var response;
     return regeneratorRuntime.async(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
             _context5.next = 2;
-            return regeneratorRuntime.awrap(_Pokeapi["default"].get("/pokemon-species/" + getState().selected.id));
+            return regeneratorRuntime.awrap(_Pokeapi["default"].get("/evolution-chain/".concat(url)));
 
           case 2:
             response = _context5.sent;
             dispatch({
-              type: "FETCH_BIO",
+              type: "FETCH_EVOLUTION",
               payload: response.data
             });
 
@@ -210,23 +220,51 @@ var fetchBio = function fetchBio() {
   };
 };
 
-exports.fetchBio = fetchBio;
+exports.fetchEvolution = fetchEvolution;
 
-var iChooseYou = function iChooseYou(event, data, href) {
-  return function _callee6(dispatch) {
-    var navEvent;
+var fetchBio = function fetchBio() {
+  return function _callee6(dispatch, getState) {
+    var response;
     return regeneratorRuntime.async(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
+            _context6.next = 2;
+            return regeneratorRuntime.awrap(_Pokeapi["default"].get("/pokemon-species/" + getState().selected.id));
+
+          case 2:
+            response = _context6.sent;
+            dispatch({
+              type: "FETCH_BIO",
+              payload: response.data
+            });
+
+          case 4:
+          case "end":
+            return _context6.stop();
+        }
+      }
+    });
+  };
+};
+
+exports.fetchBio = fetchBio;
+
+var iChooseYou = function iChooseYou(event, data, href) {
+  return function _callee7(dispatch) {
+    var navEvent;
+    return regeneratorRuntime.async(function _callee7$(_context7) {
+      while (1) {
+        switch (_context7.prev = _context7.next) {
+          case 0:
             event.preventDefault();
 
             if (!(event.metaKey || event.ctrlKey)) {
-              _context6.next = 3;
+              _context7.next = 3;
               break;
             }
 
-            return _context6.abrupt("return");
+            return _context7.abrupt("return");
 
           case 3:
             window.history.pushState({}, "", href);
@@ -239,7 +277,7 @@ var iChooseYou = function iChooseYou(event, data, href) {
 
           case 7:
           case "end":
-            return _context6.stop();
+            return _context7.stop();
         }
       }
     });
@@ -249,17 +287,17 @@ var iChooseYou = function iChooseYou(event, data, href) {
 exports.iChooseYou = iChooseYou;
 
 var iChooseYouNew = function iChooseYouNew(hash) {
-  return function _callee7(dispatch) {
+  return function _callee8(dispatch) {
     var response;
-    return regeneratorRuntime.async(function _callee7$(_context7) {
+    return regeneratorRuntime.async(function _callee8$(_context8) {
       while (1) {
-        switch (_context7.prev = _context7.next) {
+        switch (_context8.prev = _context8.next) {
           case 0:
-            _context7.next = 2;
+            _context8.next = 2;
             return regeneratorRuntime.awrap(_Pokeapi["default"].get("/pokemon/" + hash));
 
           case 2:
-            response = _context7.sent;
+            response = _context8.sent;
             dispatch({
               type: "SELECTED",
               payload: response.data
@@ -267,7 +305,7 @@ var iChooseYouNew = function iChooseYouNew(hash) {
 
           case 4:
           case "end":
-            return _context7.stop();
+            return _context8.stop();
         }
       }
     });
@@ -287,8 +325,7 @@ var setChartData = function setChartData(chartObject) {
 
 exports.setChartData = setChartData;
 
-var setSearch = function setSearch(timer) {
-  var q = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+var setSearch = function setSearch(timer, q) {
   return function (dispatch, getState) {
     clearTimeout(timer);
 
@@ -301,7 +338,7 @@ var setSearch = function setSearch(timer) {
         type: "SEARCHED",
         payload: searched
       });
-    }, 600);
+    }, 500);
   };
 };
 
