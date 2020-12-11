@@ -1,5 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { checkPokemonArray } from "../usefulFunctions";
+import { connect } from "react-redux";
+import { setSearch } from "../action";
 
 const Link = lazy(() => import("./Link"));
 const PokemonImage = lazy(() => import("./PokemonImage"));
@@ -36,6 +38,8 @@ const PokemonList = ({ pokemons, setSelectedPoke }) => {
               className={`five wide mobile three wide tablet two wide computer column ${data.types[0].type.name} poke-all ${data.name}`}
               onClick={(e) => {
                 setSelectedPoke(e, data, `/pokemon/${data.id}`);
+                let timer = null;
+                setSearch(timer, "");
               }}
             >
               <div>
@@ -76,4 +80,4 @@ const PokemonList = ({ pokemons, setSelectedPoke }) => {
   return <>{renderPokemon()}</>;
 };
 
-export default PokemonList;
+export default connect(null, { setSearch })(PokemonList);
