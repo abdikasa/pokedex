@@ -39,7 +39,6 @@ class PokemonAbilities extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log("abilities", state.abilities);
   return { abilities: state.abilities };
 };
 

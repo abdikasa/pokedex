@@ -80,8 +80,6 @@ const PokemonEvolution = ({ evolutionLine }) => {
   });
 
   const baby = evolutionLine.chain.species;
-  console.log("baby", baby);
-  console.log("evol line:", evolution);
 
   switch (Number(evolution.length)) {
     case 9:
