@@ -40,8 +40,6 @@ var images = function images(string) {
   });
 };
 
-console.log(images(twebp));
-
 var timages = function timages(string) {
   return Array.from({
     length: 17
@@ -65,9 +63,11 @@ self.addEventListener("install", function (e) {
 self.addEventListener("fetch", function (e) {
   e.respondWith(caches.match(e.request).then(function (response) {
     if (response) {
+      console.log("return from sw");
       return response;
     }
 
+    console.log("a new request, not from sw");
     return fetch(e.request);
   }));
 }); //activate the service worker

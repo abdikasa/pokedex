@@ -40,7 +40,6 @@ const images = (string) => {
   });
 };
 
-console.log(images(twebp));
 const timages = (string) => {
   return Array.from({ length: 17 }, (_, i) => i + 1).map((num) => {
     return string + typeNames[num - 1];
@@ -88,8 +87,10 @@ self.addEventListener("fetch", (e) => {
   e.respondWith(
     caches.match(e.request).then((response) => {
       if (response) {
+        console.log("return from sw");
         return response;
       }
+      console.log("a new request, not from sw");
       return fetch(e.request);
     })
   );
