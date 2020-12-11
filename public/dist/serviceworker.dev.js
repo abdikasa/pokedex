@@ -36,7 +36,7 @@ var images = function images(string) {
   }, function (_, i) {
     return i + 1;
   }).map(function (num) {
-    return string + imageId(num) + ".webp";
+    return string + imageId(num);
   });
 };
 
@@ -46,7 +46,7 @@ var timages = function timages(string) {
   }, function (_, i) {
     return i + 1;
   }).map(function (num) {
-    return string + typeNames[num - 1] + ".svg";
+    return string + typeNames[num - 1];
   });
 };
 

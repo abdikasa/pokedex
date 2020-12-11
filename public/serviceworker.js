@@ -36,13 +36,13 @@ const typeNames = [
 
 const images = (string) => {
   return Array.from({ length: 807 }, (_, i) => i + 1).map((num) => {
-    return string + imageId(num) + ".webp";
+    return string + imageId(num);
   });
 };
 
 const timages = (string) => {
   return Array.from({ length: 17 }, (_, i) => i + 1).map((num) => {
-    return string + typeNames[num - 1] + ".svg";
+    return string + typeNames[num - 1];
   });
 };
 
