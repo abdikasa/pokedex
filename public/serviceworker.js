@@ -47,8 +47,8 @@ const timages = (string) => {
 };
 
 const urlsToCache = [
-  ...images(twebp),
-  ...images(bwebp),
+  // ...images(twebp),
+  // ...images(bwebp),
   ...timages(types),
   "../src/css/all.css",
   "../src/types-imgs/type_style.css",
