@@ -36,9 +36,11 @@ var images = function images(string) {
   }, function (_, i) {
     return i + 1;
   }).map(function (num) {
-    return string + imageId(num);
+    return string + imageId(num) + ".webp";
   });
 };
+
+console.log(images(twebp));
 
 var timages = function timages(string) {
   return Array.from({

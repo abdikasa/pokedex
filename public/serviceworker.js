@@ -36,10 +36,11 @@ const typeNames = [
 
 const images = (string) => {
   return Array.from({ length: 807 }, (_, i) => i + 1).map((num) => {
-    return string + imageId(num);
+    return string + imageId(num) + ".webp";
   });
 };
 
+console.log(images(twebp));
 const timages = (string) => {
   return Array.from({ length: 17 }, (_, i) => i + 1).map((num) => {
     return string + typeNames[num - 1];
