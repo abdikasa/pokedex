@@ -35,7 +35,7 @@ function fetchPokemonHelper(id) {
 }
 
 export const fetchAll = () => async (dispatch, getState) => {
-  const response = await Pokeapi.get(`/pokemon/?offset=0&limit=3`);
+  const response = await Pokeapi.get(`/pokemon/?offset=0&limit=807`);
   const unresolved = response.data.results.map((pokemon) =>
     getPokemon(pokemon, "pokemon", /\/pokemon\/(\d+)\//)
   );
@@ -46,7 +46,7 @@ export const fetchAll = () => async (dispatch, getState) => {
   dispatch({ type: "FETCH_ALL", payload: results });
 
   if (getState().searched.length === 0) {
-    dispatch({ type: "SEARCHED", payload: arr });
+    dispatch({ type: "SEARCHED", payload: results });
   }
 };
 

@@ -80,7 +80,7 @@ var fetchAll = function fetchAll() {
         switch (_context2.prev = _context2.next) {
           case 0:
             _context2.next = 2;
-            return regeneratorRuntime.awrap(_Pokeapi["default"].get("/pokemon/?offset=0&limit=3"));
+            return regeneratorRuntime.awrap(_Pokeapi["default"].get("/pokemon/?offset=0&limit=807"));
 
           case 2:
             response = _context2.sent;
@@ -105,7 +105,7 @@ var fetchAll = function fetchAll() {
             if (getState().searched.length === 0) {
               dispatch({
                 type: "SEARCHED",
-                payload: arr
+                payload: results
               });
             }
 
