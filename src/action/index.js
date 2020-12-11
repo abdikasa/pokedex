@@ -102,13 +102,10 @@ export const setChartData = (chartObject) => (dispatch) => {
   dispatch({ type: "setChart", payload: chartObject });
 };
 
-export const setSearch = (timer, q) => (dispatch, getState) => {
-  clearTimeout(timer);
+export const setSearch = (q) => (dispatch, getState) => {
   let searched = [...getState().getAll].filter(
     (pokemon) => pokemon.name.toLowerCase().indexOf(q.toLowerCase()) > -1
   );
 
-  timer = setTimeout(() => {
-    dispatch({ type: "SEARCHED", payload: searched });
-  }, 500);
+  dispatch({ type: "SEARCHED", payload: searched });
 };

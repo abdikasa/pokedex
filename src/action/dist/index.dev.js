@@ -300,20 +300,16 @@ var setChartData = function setChartData(chartObject) {
 
 exports.setChartData = setChartData;
 
-var setSearch = function setSearch(timer, q) {
+var setSearch = function setSearch(q) {
   return function (dispatch, getState) {
-    clearTimeout(timer);
-
     var searched = _toConsumableArray(getState().getAll).filter(function (pokemon) {
       return pokemon.name.toLowerCase().indexOf(q.toLowerCase()) > -1;
     });
 
-    timer = setTimeout(function () {
-      dispatch({
-        type: "SEARCHED",
-        payload: searched
-      });
-    }, 500);
+    dispatch({
+      type: "SEARCHED",
+      payload: searched
+    });
   };
 };
 
