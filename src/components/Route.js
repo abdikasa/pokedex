@@ -8,6 +8,7 @@ const Route = ({ path, children }) => {
     //detect change
     const urlChange = () => {
       let match = window.location.pathname.match(/\/pokemon\/(\d+)/);
+      window.scrollTo(0, 0);
       if (match) {
         ///pokemon is found
         setPath("/pokemon");

@@ -29,6 +29,7 @@ var Route = function Route(_ref) {
     //detect change
     var urlChange = function urlChange() {
       var match = window.location.pathname.match(/\/pokemon\/(\d+)/);
+      window.scrollTo(0, 0);
 
       if (match) {
         ///pokemon is found
