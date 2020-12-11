@@ -34,7 +34,7 @@ const PokemonImage = ({
           e.target.onerror = null;
           e.target.src = require(`../pokemon_imgs/pokemon-${imageFolder}/${imageId(
             pokemon.id
-          )}.png`).default;
+          )}.jpg`).default;
         }}
         alt={"An image of " + pokemon.name}
         onClick={handleClick}
