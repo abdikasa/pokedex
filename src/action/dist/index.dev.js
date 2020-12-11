@@ -109,16 +109,12 @@ var fetchAll = function fetchAll() {
                       dispatch({
                         type: "FETCH_ALL",
                         payload: arr
-                      });
+                      }); // might be the problem here
+                      // if (getState().searched.length === 0) {
+                      //   dispatch({ type: "SEARCHED", payload: arr });
+                      // }
 
-                      if (getState().searched.length === 0) {
-                        dispatch({
-                          type: "SEARCHED",
-                          payload: arr
-                        });
-                      }
-
-                    case 7:
+                    case 6:
                     case "end":
                       return _context2.stop();
                   }

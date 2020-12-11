@@ -49,9 +49,11 @@ export const fetchAll = (
     arr = (await Promise.all(arr)).map((pokemon) => pokemon.data);
     console.log("ran again", arr);
     dispatch({ type: "FETCH_ALL", payload: arr });
-    if (getState().searched.length === 0) {
-      dispatch({ type: "SEARCHED", payload: arr });
-    }
+
+    // might be the problem here
+    // if (getState().searched.length === 0) {
+    //   dispatch({ type: "SEARCHED", payload: arr });
+    // }
   });
 
   // const response = await Pokeapi.get(`/pokemon/?offset=0&limit=3`);
