@@ -35,7 +35,7 @@ const typeNames = [
 ];
 
 const images = (string) => {
-  return Array.from({ length: 807 }, (_, i) => i + 1).map((num) => {
+  return Array.from({ length: 151 }, (_, i) => i + 1).map((num) => {
     return string + imageId(num);
   });
 };
@@ -50,7 +50,6 @@ const urlsToCache = [
   ...images(twebp),
   ...images(bwebp),
   ...timages(types),
-  "index.html",
   "../src/css/all.css",
   "../src/types-imgs/type_style.css",
   "https://fonts.googleapis.com/css?family=Nunito:600,800&display=swap",
