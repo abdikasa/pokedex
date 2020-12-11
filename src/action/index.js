@@ -34,37 +34,20 @@ function fetchPokemonHelper(id) {
   });
 }
 
-export const fetchAll = (
-  defaultList = Array.from({ length: 807 }, (_, i) => i + 1)
-) => async (dispatch, getState) => {
-  let arr = [];
-  let result = defaultList.reduce((accumulatorPromise, nextID) => {
-    return accumulatorPromise.then(() => {
-      arr = arr.concat(fetchPokemonHelper(nextID));
-      return arr;
-    });
-  }, Promise.resolve());
+export const fetchAll = () => async (dispatch, getState) => {
+  const response = await Pokeapi.get(`/pokemon/?offset=0&limit=3`);
+  const unresolved = response.data.results.map((pokemon) =>
+    getPokemon(pokemon, "pokemon", /\/pokemon\/(\d+)\//)
+  );
+  const results = (await Promise.all(unresolved)).map(
+    (pokemon) => pokemon.data
+  );
+  console.log(results);
+  dispatch({ type: "FETCH_ALL", payload: results });
 
-  result.then(async () => {
-    arr = (await Promise.all(arr)).map((pokemon) => pokemon.data);
-    console.log("ran again", arr);
-    dispatch({ type: "FETCH_ALL", payload: arr });
-
-    // might be the problem here
-    // if (getState().searched.length === 0) {
-    //   dispatch({ type: "SEARCHED", payload: arr });
-    // }
-  });
-
-  // const response = await Pokeapi.get(`/pokemon/?offset=0&limit=3`);
-  // const unresolved = response.data.results.map((pokemon) =>
-  //   getPokemon(pokemon, "pokemon", /\/pokemon\/(\d+)\//)
-  // );
-  // const results = (await Promise.all(unresolved)).map(
-  //   (pokemon) => pokemon.data
-  // );
-  // console.log(results);
-  // dispatch({ type: "FETCH_ALL", payload: results });
+  if (getState().searched.length === 0) {
+    dispatch({ type: "SEARCHED", payload: arr });
+  }
 };
 
 export const fetchBioEvolution = () => async (dispatch, getState) => {
