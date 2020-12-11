@@ -47,9 +47,10 @@ const timages = (string) => {
 };
 
 const urlsToCache = [
-  ...images(twebp),
-  ...images(bwebp),
+  // ...images(twebp),
+  // ...images(bwebp),
   ...timages(types),
+  "index.html",
   "../src/css/all.css",
   "../src/types-imgs/type_style.css",
   "https://fonts.googleapis.com/css?family=Nunito:600,800&display=swap",
