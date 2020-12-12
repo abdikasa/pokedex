@@ -28,7 +28,7 @@ var pad = function pad(number) {
 var twebp = "../src/pokemon_imgs/pokemon-thumb-webp/";
 var bwebp = "../src/pokemon_imgs/pokemon-body-webp/";
 var types = "../src/types-imgs/";
-var typeNames = ["bug", "dark", "dragon", "electric", "fairy", "flying", "ghost", "grass", "ground", "fire", "ice", "normal", "posion", "psychic", "rock", "steel", "water"];
+var typeNames = ["bug", "dark", "dragon", "electric", "fairy", "flying", "ghost", "grass", "ground", "fire", "ice", "normal", "poison", "psychic", "rock", "steel", "water"];
 
 var images = function images(string) {
   return Array.from({
@@ -46,40 +46,67 @@ var timages = function timages(string) {
   }, function (_, i) {
     return i + 1;
   }).map(function (num) {
-    return string + typeNames[num - 1];
+    return string + typeNames[num - 1] + ".svg";
   });
 };
 
 var urlsToCache = [].concat(_toConsumableArray(images(twebp)), _toConsumableArray(images(bwebp)), _toConsumableArray(timages(types)), ["./index.html", "../src/css/all.css", "../src/types-imgs/type_style.css", "https://fonts.googleapis.com/css?family=Nunito:600,800&display=swap", "https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css", "https://api.iconify.design/mdi-pokeball.svg?color=rgb(200%2C184%2C32)&height=5rem", "https://api.iconify.design/mdi-pokeball.svg?color=rgb(200%2C168%2C120)&height=5rem", "https://api.iconify.design/mdi-pokeball.svg?color=%23e09618&height=5rem", "https://api.iconify.design/mdi-pokeball.svg?color=%231798e2&height=5rem", "https://api.iconify.design/mdi-pokeball.svg?color=%23dbbc10&height=5rem", "https://api.iconify.design/mdi-pokeball.svg?color=%23EE90E6&height=5rem", "https://api.iconify.design/mdi-pokeball.svg?color=%23B763CF&height=5rem", "https://api.iconify.design/mdi-pokeball.svg?color=%23FBA54C&height=5rem", "https://api.iconify.design/mdi-pokeball.svg?color=%23e38799&height=5rem", "https://api.iconify.design/mdi-pokeball.svg?color=%23D3425F&height=5rem", "https://api.iconify.design/mdi-pokeball.svg?color=%23a28f4b&height=5rem", "https://api.iconify.design/mdi-pokeball.svg?color=%2386bef8&height=5rem", "https://api.iconify.design/mdi-pokeball.svg?color=%23615d57&height=5rem", "https://api.iconify.design/mdi-pokeball.svg?color=%2320ABAB&height=5rem"]);
-var self = void 0; //install service worker
-
 self.addEventListener("install", function (e) {
-  e.waitUntil(caches.open(CACHE_NAME).then(function (cache) {
-    console.log("opened cache");
+  console.log("[ServiceWorker] Installed"); // e.waitUntil Delays the event until the Promise is resolved
+
+  e.waitUntil( // Open the cache
+  caches.open(CACHE_NAME).then(function (cache) {
+    // Add all the default files to the cache
+    console.log("[ServiceWorker] Caching urlsToCache");
     return cache.addAll(urlsToCache);
-  }));
-}); //listen for requests
-
-self.addEventListener("fetch", function (e) {
-  e.respondWith(caches.match(e.request).then(function (response) {
-    if (response) {
-      console.log("return from sw");
-      return response;
-    }
-
-    console.log("a new request, not from sw");
-    return fetch(e.request);
-  }));
-}); //activate the service worker
-
+  })); // end e.waitUntil
+});
 self.addEventListener("activate", function (e) {
-  var cacheWhitelist = [];
-  cacheWhitelist.push(CACHE_NAME);
-  e.waitUntil(caches.keys().then(function (cacheNames) {
-    return Promise.all(cacheNames.map(function (cname) {
-      if (!cacheWhitelist.includes(cname)) {
-        return caches["delete"](cacheName);
+  console.log("[ServiceWorker] Activated");
+  e.waitUntil( // Get all the cache keys (CACHE_NAME)
+  caches.keys().then(function (cacheNames) {
+    return Promise.all(cacheNames.map(function (thisCacheName) {
+      // If a cached item is saved under a previous CACHE_NAME
+      if (thisCacheName !== CACHE_NAME) {
+        // Delete that cached file
+        console.log("[ServiceWorker] Removing Cached Files from Cache - ", thisCacheName);
+        return caches["delete"](thisCacheName);
       }
     }));
-  }));
+  })); // end e.waitUntil
+});
+self.addEventListener("fetch", function (e) {
+  console.log("[ServiceWorker] Fetch", e.request.url); // e.respondWidth Responds to the fetch event
+
+  e.respondWith( // Check in cache for the request being made
+  caches.match(e.request).then(function (response) {
+    // If the request is in the cache
+    if (response) {
+      console.log("[ServiceWorker] Found in Cache", e.request.url, response); // Return the cached version
+
+      return response;
+    } // If the request is NOT in the cache, fetch and cache
+
+
+    var requestClone = e.request.clone();
+    return fetch(requestClone).then(function (response) {
+      if (!response) {
+        console.log("[ServiceWorker] No response from fetch ");
+        return response;
+      }
+
+      var responseClone = response.clone(); //  Open the cache
+
+      caches.open(CACHE_NAME).then(function (cache) {
+        // Put the fetched response in the cache
+        cache.put(e.request, responseClone);
+        console.log("[ServiceWorker] New Data Cached", e.request.url); // Return the response
+
+        return response;
+      }); // end caches.open
+    })["catch"](function (err) {
+      console.log("[ServiceWorker] Error Fetching & Caching New Data", err);
+    });
+  }) // end caches.match(e.request)
+  ); // end e.respondWith
 });
