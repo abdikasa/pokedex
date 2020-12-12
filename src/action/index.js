@@ -62,7 +62,7 @@ export const fetchAll = (
   }, Promise.resolve());
 
   result.then(async () => {
-    arr = (await Promise.allSettled(arr)).map((pokemon) => pokemon.data);
+    arr = (await Promise.all(arr)).map((pokemon) => pokemon.data);
     console.log("ran again", arr);
     dispatch({ type: "FETCH_ALL", payload: arr });
     if (getState().searched.length === 0) {
