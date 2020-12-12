@@ -1,7 +1,7 @@
 /* eslint-disable no-undef, no-restricted-globals, no-underscore-dangle */
 console.log("My Custom Service Worker");
 const urlsToCache = [
-  "../public/index.html",
+  "/public/index.html",
   "../css/all.css",
   "./types-imgs/type_style.css",
   "https://fonts.googleapis.com/css?family=Nunito:600,800&display=swap",
@@ -25,6 +25,8 @@ const urlsToCache = [
   return { url: url, revision: null };
 });
 
-workbox.precaching.precacheAndRoute([self.__precacheManifest, ...urlsToCache]);
+const urlCache = [self.__precacheManifest, ...urlsToCache];
+console.log(urlCache);
+workbox.precaching.precacheAndRoute(urlCache);
 workbox.core.skipWaiting();
 workbox.core.clientsClaim();
