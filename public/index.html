@@ -14,14 +14,70 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" async />
-    <link href="https://fonts.googleapis.com/css?family=Nunito:600,800&display=swap" rel="stylesheet" async />
+      href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Nunito:600,800&display=swap" rel="stylesheet"/>
 
     <title>Pokedex</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    <script>
+      if('serviceWorker' in navigator){
+        navigator.serviceWorker.register('/sw.js', {scope: '/'})
+        .then(function(registration){
+          console.log('Successfully registered the ting.')
+        })
+        navigator.serviceWorker.ready.then(function(registration){
+          console.log('The service worker says: I am ready.');
+        })
+      }
+    </script>
         <!-- <script src="https://unpkg.com/regenerator-runtime@0.13.1/runtime.js"></script> -->
-  </body>
+
+        <!--
+
+const CACHE_NAME = "my_cache";
+
+self.addEventListener("install", (e) => {
+  console.log("About to install the service worker babyy");
+  e.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache
+        .addAll(["/", "/index.html", "static/js/bundle.js"])
+        .then(() => self.skipWaiting());
+    })
+  );
+});
+
+self.addEventListener("activate", (event) => {
+  console.log("about to activate my service worker");
+  event.waitUntil(self.clients.claim);
+});
+
+self.addEventListener("fetch", async function (event) {
+  console.log(`about to fetch ${event.request.url}`);
+  if (navigator.onLine) {
+    const response = await fetch(event.request);
+    if (!response || response.status !== 200 || response.type !== "basic") {
+      return response;
+    }
+    const cache = await caches.open(CACHE_NAME);
+    await cache.put(event.request, response.clone());
+    return response;
+  } else {
+    event.respondWith(
+      caches.match(event.request).then(function (response) {
+        if (response) {
+          return response;
+        }
+      })
+    );
+  }
+});
+
+
+        -->
+
+      </body>
 </html>
