@@ -4,7 +4,6 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import reducers from "./reducers";
-import * as serviceWorker from "./serviceWorker";
 
 const App = lazy(() => import("./components/App"));
 
@@ -18,6 +17,3 @@ ReactDOM.render(
   </Suspense>,
   document.getElementById("root")
 );
-
-serviceWorker.register();
-console.log("service worker.register");
