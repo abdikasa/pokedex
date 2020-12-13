@@ -31,7 +31,6 @@ self.addEventListener("fetch", async function (event) {
         return response;
       }
       const cache = await caches.open(CACHE_NAME);
-      console.log(event.request, response.clone());
       await cache.put(event.request, response.clone());
       return response;
     }, 600);

@@ -55,14 +55,13 @@ self.addEventListener("fetch", function _callee2(event) {
 
                     case 7:
                       cache = _context.sent;
-                      console.log(event.request, response.clone());
-                      _context.next = 11;
+                      _context.next = 10;
                       return regeneratorRuntime.awrap(cache.put(event.request, response.clone()));
 
-                    case 11:
+                    case 10:
                       return _context.abrupt("return", response);
 
-                    case 12:
+                    case 11:
                     case "end":
                       return _context.stop();
                   }
