@@ -9,16 +9,23 @@ class PokeProfile extends React.Component {
   componentDidMount = () => {
     if (this.checkIfObjectEmpty(this.props.pokemon)) {
       let hash = window.location.pathname.split("/")[2];
+      console.log("pokemon hash is ", hash);
       if (hash.length > 0 && hash.length <= 3) {
         if (+hash > 0 && +hash <= 807) {
           hash = Number(hash);
+          console.log("+hash > 0 && +hash <= 807", hash);
           this.props.iChooseYouNew(hash);
           this.props.fetchBioEvolution();
         } else {
+          console.log("else option");
           return;
         }
+      } else {
+        console.log("hash length is > 3 || less than 0");
       }
     } else {
+      console.log("this.props.pokemon is not empty", this.props.pokemon);
+      console.log("fetchBioevolution is called");
       this.props.fetchBioEvolution();
     }
   };
@@ -36,6 +43,7 @@ class PokeProfile extends React.Component {
     if (!test) {
       return <Spinner text="Loading Pokemon..."></Spinner>;
     } else {
+      console.log("Pokemon header is loaded", this.props.propPokemon);
       return (
         <Suspense
           fallback={<div className="ui active centered inline loader"></div>}

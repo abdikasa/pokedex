@@ -82,12 +82,18 @@ export const fetchBioEvolution = () => async (dispatch, getState) => {
     }
   }
   await dispatch(fetchBio());
+  console.log(
+    "We have successfully fetched the bio of the pokemon",
+    getState().bio
+  );
   let evolution = getState().bio.evolution_chain;
+  console.log("We are about to fetch the evolution now", evolution);
 
   //get evolution
   await dispatch(
     fetchEvolution(Number(evolution.url.match(/\/evolution-chain\/(\d+)\//)[1]))
   );
+  console.log("We have fetched the evolution now", getState().evolution);
 };
 
 export const fetchEvolution = (url) => async (dispatch) => {
@@ -112,6 +118,8 @@ export const iChooseYou = (event, data, href) => async (dispatch) => {
   const navEvent = new PopStateEvent("popstate");
   window.dispatchEvent(navEvent);
   dispatch({ type: "SELECTED", payload: data });
+  dispatch({ type: "FETCH_BIO", payload: {} });
+  dispatch({ type: "FETCH_EVOLUTION", payload: {} });
 };
 
 export const iChooseYouNew = (hash) => async (dispatch) => {

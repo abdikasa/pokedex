@@ -11,6 +11,10 @@ import { connect } from "react-redux";
 
 class PokemonTabs extends React.Component {
   componentDidMount = () => {
+    console.log(
+      "We are inside pokemon tabs, what is the value of tabs",
+      this.props.tabs
+    );
     const { poke } = this.props.tabs[0];
     const stats = poke.stats.map((stat) => stat.base_stat);
 

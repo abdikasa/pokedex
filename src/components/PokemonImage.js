@@ -16,8 +16,6 @@ const PokemonImage = ({
 }) => {
   const imageFolder = className.includes("thumb") ? "thumb" : "body";
 
-  console.log("pokemon prop", pokemon);
-
   if (+pokemon.id === 487) {
     if (imageFolder === "body") {
       pokemon.id = pokemon.id + "-Origin";

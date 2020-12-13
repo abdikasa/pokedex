@@ -184,12 +184,17 @@ var fetchBioEvolution = function fetchBioEvolution() {
             return regeneratorRuntime.awrap(dispatch(fetchBio()));
 
           case 9:
-            evolution = getState().bio.evolution_chain; //get evolution
+            console.log("We have successfully fetched the bio of the pokemon", getState().bio);
+            evolution = getState().bio.evolution_chain;
+            console.log("We are about to fetch the evolution now", evolution); //get evolution
 
-            _context4.next = 12;
+            _context4.next = 14;
             return regeneratorRuntime.awrap(dispatch(fetchEvolution(Number(evolution.url.match(/\/evolution-chain\/(\d+)\//)[1]))));
 
-          case 12:
+          case 14:
+            console.log("We have fetched the evolution now", getState().evolution);
+
+          case 15:
           case "end":
             return _context4.stop();
         }
@@ -280,8 +285,16 @@ var iChooseYou = function iChooseYou(event, data, href) {
               type: "SELECTED",
               payload: data
             });
+            dispatch({
+              type: "FETCH_BIO",
+              payload: {}
+            });
+            dispatch({
+              type: "FETCH_EVOLUTION",
+              payload: {}
+            });
 
-          case 7:
+          case 9:
           case "end":
             return _context7.stop();
         }

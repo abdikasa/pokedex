@@ -8,6 +8,11 @@ const PokemonTypes = lazy(() => import("./PokemonTypes"));
 
 class PokemonHeader extends React.Component {
   renderContent = () => {
+    console.log(
+      "insidie pokemon header, what is the value of the props pokemon",
+      this.props.pokemon
+    );
+
     const [poke, bio, species] = this.props.pokemon;
     let { flavor_text_entries: flavor } = bio;
     let { genera } = bio;
@@ -26,6 +31,8 @@ class PokemonHeader extends React.Component {
         text = text.split(/\s+/).join(" ");
         return <p key={text + index}>{text}</p>;
       });
+
+    console.log(poke, genera, flavor, bio, species);
 
     return (
       <>
