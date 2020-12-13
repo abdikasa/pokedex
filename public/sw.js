@@ -19,8 +19,7 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", function (event) {
-  console.log(`about to fetch ${event.request.url}`);
-
+  console.log("fetching ", event.request.url);
   if (
     event.request.cache === "only-if-cached" &&
     event.request.mode !== "same-origin"
@@ -29,7 +28,7 @@ self.addEventListener("fetch", function (event) {
 
   if (navigator.onLine) {
     var fetchRequest = event.request.clone();
-    return fetch(fetchRequest).then(function (response) {
+    return fetchWithTimeout(fetchRequest).then(function (response) {
       if (!response || response.status !== 200 || response.type !== "basic") {
         return response;
       }
@@ -49,6 +48,15 @@ self.addEventListener("fetch", function (event) {
     );
   }
 });
+
+function fetchWithTimeout(url, timeout = 7000) {
+  return Promise.race([
+    fetch(url),
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("timeout took too long")), timeout)
+    ),
+  ]);
+}
 
 // self.addEventListener("fetch", async function (event) {
 //   if (

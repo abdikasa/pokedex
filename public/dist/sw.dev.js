@@ -17,12 +17,12 @@ self.addEventListener("activate", function (event) {
   event.waitUntil(self.clients.claim);
 });
 self.addEventListener("fetch", function (event) {
-  console.log("about to fetch ".concat(event.request.url));
+  console.log("fetching ", event.request.url);
   if (event.request.cache === "only-if-cached" && event.request.mode !== "same-origin") return;
 
   if (navigator.onLine) {
     var fetchRequest = event.request.clone();
-    return fetch(fetchRequest).then(function (response) {
+    return fetchWithTimeout(fetchRequest).then(function (response) {
       if (!response || response.status !== 200 || response.type !== "basic") {
         return response;
       }
@@ -40,7 +40,16 @@ self.addEventListener("fetch", function (event) {
       }
     }));
   }
-}); // self.addEventListener("fetch", async function (event) {
+});
+
+function fetchWithTimeout(url) {
+  var timeout = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 7000;
+  return Promise.race([fetch(url), new Promise(function (_, reject) {
+    return setTimeout(function () {
+      return reject(new Error("timeout took too long"));
+    }, timeout);
+  })]);
+} // self.addEventListener("fetch", async function (event) {
 //   if (
 //     event.request.cache === "only-if-cached" &&
 //     event.request.mode !== "same-origin"
