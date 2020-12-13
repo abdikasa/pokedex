@@ -21,44 +21,52 @@ self.addEventListener("fetch", function _callee(event) {
         case 0:
           console.log("about to fetch ".concat(event.request.url));
 
-          if (!navigator.onLine) {
-            _context.next = 15;
+          if (!(event.request.cache === "only-if-cached" && event.request.mode !== "same-origin")) {
+            _context.next = 3;
             break;
           }
 
-          _context.next = 4;
+          return _context.abrupt("return");
+
+        case 3:
+          if (!navigator.onLine) {
+            _context.next = 17;
+            break;
+          }
+
+          _context.next = 6;
           return regeneratorRuntime.awrap(fetch(event.request));
 
-        case 4:
+        case 6:
           response = _context.sent;
 
           if (!(!response || response.status !== 200 || response.type !== "basic")) {
-            _context.next = 7;
+            _context.next = 9;
             break;
           }
 
           return _context.abrupt("return", response);
 
-        case 7:
-          _context.next = 9;
+        case 9:
+          _context.next = 11;
           return regeneratorRuntime.awrap(caches.open(CACHE_NAME));
 
-        case 9:
+        case 11:
           cache = _context.sent;
-          _context.next = 12;
+          _context.next = 14;
           return regeneratorRuntime.awrap(cache.put(event.request, response.clone()));
 
-        case 12:
+        case 14:
           return _context.abrupt("return", response);
 
-        case 15:
+        case 17:
           event.respondWith(caches.match(event.request).then(function (response) {
             if (response) {
               return response;
             }
           }));
 
-        case 16:
+        case 18:
         case "end":
           return _context.stop();
       }

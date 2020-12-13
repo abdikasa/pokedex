@@ -18,6 +18,11 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", async function (event) {
   console.log(`about to fetch ${event.request.url}`);
+  if (
+    event.request.cache === "only-if-cached" &&
+    event.request.mode !== "same-origin"
+  )
+    return;
   if (navigator.onLine) {
     const response = await fetch(event.request);
     if (!response || response.status !== 200 || response.type !== "basic") {
