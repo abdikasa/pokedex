@@ -25,11 +25,7 @@ self.addEventListener("fetch", async function (event) {
 
   let response = null;
   if (navigator.onLine) {
-    console.log("before setTimeout");
-    setTimeout(async () => {
-      response = await fetch(event.request);
-    }, 600);
-
+    response = await fetch(event.request);
     if (!response || response.status !== 200 || response.type !== "basic") {
       return response;
     }

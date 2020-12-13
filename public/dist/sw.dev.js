@@ -13,77 +13,63 @@ self.addEventListener("activate", function (event) {
   console.log("about to activate my service worker");
   event.waitUntil(self.clients.claim);
 });
-self.addEventListener("fetch", function _callee2(event) {
+self.addEventListener("fetch", function _callee(event) {
   var response, cache;
-  return regeneratorRuntime.async(function _callee2$(_context2) {
+  return regeneratorRuntime.async(function _callee$(_context) {
     while (1) {
-      switch (_context2.prev = _context2.next) {
+      switch (_context.prev = _context.next) {
         case 0:
           if (!(event.request.cache === "only-if-cached" && event.request.mode !== "same-origin")) {
-            _context2.next = 2;
+            _context.next = 2;
             break;
           }
 
-          return _context2.abrupt("return");
+          return _context.abrupt("return");
 
         case 2:
           response = null;
 
           if (!navigator.onLine) {
-            _context2.next = 17;
+            _context.next = 18;
             break;
           }
 
-          console.log("before setTimeout");
-          setTimeout(function _callee() {
-            return regeneratorRuntime.async(function _callee$(_context) {
-              while (1) {
-                switch (_context.prev = _context.next) {
-                  case 0:
-                    _context.next = 2;
-                    return regeneratorRuntime.awrap(fetch(event.request));
+          _context.next = 6;
+          return regeneratorRuntime.awrap(fetch(event.request));
 
-                  case 2:
-                    response = _context.sent;
-
-                  case 3:
-                  case "end":
-                    return _context.stop();
-                }
-              }
-            });
-          }, 600);
+        case 6:
+          response = _context.sent;
 
           if (!(!response || response.status !== 200 || response.type !== "basic")) {
-            _context2.next = 8;
+            _context.next = 9;
             break;
           }
 
-          return _context2.abrupt("return", response);
+          return _context.abrupt("return", response);
 
-        case 8:
-          _context2.next = 10;
+        case 9:
+          _context.next = 11;
           return regeneratorRuntime.awrap(caches.open(CACHE_NAME));
 
-        case 10:
-          cache = _context2.sent;
+        case 11:
+          cache = _context.sent;
           console.log(event.request, response.clone());
-          _context2.next = 14;
+          _context.next = 15;
           return regeneratorRuntime.awrap(cache.put(event.request, response.clone()));
 
-        case 14:
-          return _context2.abrupt("return", response);
+        case 15:
+          return _context.abrupt("return", response);
 
-        case 17:
+        case 18:
           event.respondWith(caches.match(event.request).then(function (response) {
             if (response) {
               return response;
             }
           }));
 
-        case 18:
+        case 19:
         case "end":
-          return _context2.stop();
+          return _context.stop();
       }
     }
   });
