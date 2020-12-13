@@ -18,25 +18,22 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(self.clients.claim);
 });
 
-self.addEventListener("fetch", function (event) {
+self.addEventListener("fetch", async function (event) {
   if (
     event.request.cache === "only-if-cached" &&
     event.request.mode !== "same-origin"
   )
     return;
 
+  let response = null;
   if (navigator.onLine) {
-    var fetchRequest = event.request.clone();
-    return fetchWithTimeout(fetchRequest, 20000).then(function (response) {
-      if (!response || response.status !== 200 || response.type !== "basic") {
-        return response;
-      }
-      var responseToCache = response.clone();
-      caches.open(CACHE_NAME).then(function (cache) {
-        cache.put(event.request, responseToCache);
-      });
+    response = await fetch(event.request);
+    if (!response || response.status !== 200 || response.type !== "basic") {
       return response;
-    });
+    }
+    const cache = await caches.open(CACHE_NAME);
+    await cache.put(event.request, response.clone());
+    return response;
   } else {
     event.respondWith(
       caches.match(event.request).then(function (response) {
@@ -47,43 +44,6 @@ self.addEventListener("fetch", function (event) {
     );
   }
 });
-
-function fetchWithTimeout(url, timeout = 7000) {
-  return new Promise((resolve, reject) => {
-    fetch(url).then(resolve, reject);
-    if (timeout) {
-      const e = new Error("Connection timed out");
-      setTimeout(reject, timeout, e);
-    }
-  });
-}
-
-// self.addEventListener("fetch", async function (event) {
-//   if (
-//     event.request.cache === "only-if-cached" &&
-//     event.request.mode !== "same-origin"
-//   )
-//     return;
-
-//   let response = null;
-//   if (navigator.onLine) {
-//     response = await fetch(event.request);
-//     if (!response || response.status !== 200 || response.type !== "basic") {
-//       return response;
-//     }
-//     const cache = await caches.open(CACHE_NAME);
-//     await cache.put(event.request, response.clone());
-//     return response;
-//   } else {
-//     event.respondWith(
-//       caches.match(event.request).then(function (response) {
-//         if (response) {
-//           return response;
-//         }
-//       })
-//     );
-//   }
-// });
 
 // const CACHE_NAME = "my_cache";
 
