@@ -4,7 +4,7 @@ var CACHE_NAME = "my_cache";
 self.addEventListener("install", function (e) {
   console.log("About to install the service worker babyy");
   e.waitUntil(caches.open(CACHE_NAME).then(function (cache) {
-    return cache.addAll(["/", "/index.html", "static/js/bundle.js"]).then(function () {
+    return cache.addAll(["/", "./index.html", "static/js/bundle.js"]).then(function () {
       return self.skipWaiting();
     });
   }));
@@ -55,13 +55,14 @@ self.addEventListener("fetch", function _callee2(event) {
 
                     case 7:
                       cache = _context.sent;
-                      _context.next = 10;
+                      console.log(event.request, response.clone());
+                      _context.next = 11;
                       return regeneratorRuntime.awrap(cache.put(event.request, response.clone()));
 
-                    case 10:
+                    case 11:
                       return _context.abrupt("return", response);
 
-                    case 11:
+                    case 12:
                     case "end":
                       return _context.stop();
                   }
