@@ -16,21 +16,27 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(self.clients.claim);
 });
 
-self.addEventListener("fetch", async function (event) {
+self.addEventListener("fetch", function (event) {
   console.log(`about to fetch ${event.request.url}`);
+
   if (
     event.request.cache === "only-if-cached" &&
     event.request.mode !== "same-origin"
   )
     return;
+
   if (navigator.onLine) {
-    const response = await fetch(event.request);
-    if (!response || response.status !== 200 || response.type !== "basic") {
+    var fetchRequest = event.request.clone();
+    return fetch(fetchRequest).then(function (response) {
+      if (!response || response.status !== 200 || response.type !== "basic") {
+        return response;
+      }
+      var responseToCache = response.clone();
+      caches.open(CACHE_NAME).then(function (cache) {
+        cache.put(event.request, responseToCache);
+      });
       return response;
-    }
-    const cache = await caches.open(CACHE_NAME);
-    await cache.put(event.request, response.clone());
-    return response;
+    });
   } else {
     event.respondWith(
       caches.match(event.request).then(function (response) {
