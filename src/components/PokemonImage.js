@@ -21,15 +21,14 @@ const PokemonImage = ({
       pokemon.id = pokemon.id + "-Origin";
     }
   }
-
   let image =
     imageFolder === "thumb"
       ? `https://raw.githubusercontent.com/HybridShivam/Pokemon/master/assets/thumbnails-compressed/${imageId(
           pokemon.id
-        )}.png`
+        )}${forms}.png`
       : `https://raw.githubusercontent.com/HybridShivam/Pokemon/master/assets/images/${imageId(
           pokemon.id
-        )}.png`;
+        )}${forms}.png`;
 
   return (
     <div className={className} key={pokemon.id}>
