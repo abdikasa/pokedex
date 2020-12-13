@@ -5,7 +5,7 @@ self.addEventListener("install", (e) => {
   e.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache
-        .addAll(["/", "./index.html", "static/js/bundle.js"])
+        .addAll(["/", "/index.html", "static/js/bundle.js"])
         .then(() => self.skipWaiting());
     })
   );
@@ -25,15 +25,18 @@ self.addEventListener("fetch", async function (event) {
 
   let response = null;
   if (navigator.onLine) {
+    console.log("before setTimeout");
     setTimeout(async () => {
       response = await fetch(event.request);
-      if (!response || response.status !== 200 || response.type !== "basic") {
-        return response;
-      }
-      const cache = await caches.open(CACHE_NAME);
-      await cache.put(event.request, response.clone());
-      return response;
     }, 600);
+
+    if (!response || response.status !== 200 || response.type !== "basic") {
+      return response;
+    }
+    const cache = await caches.open(CACHE_NAME);
+    console.log(event.request, response.clone());
+    await cache.put(event.request, response.clone());
+    return response;
   } else {
     event.respondWith(
       caches.match(event.request).then(function (response) {
