@@ -13,62 +13,75 @@ self.addEventListener("activate", function (event) {
   console.log("about to activate my service worker");
   event.waitUntil(self.clients.claim);
 });
-self.addEventListener("fetch", function _callee(event) {
+self.addEventListener("fetch", function _callee2(event) {
   var response, cache;
-  return regeneratorRuntime.async(function _callee$(_context) {
+  return regeneratorRuntime.async(function _callee2$(_context2) {
     while (1) {
-      switch (_context.prev = _context.next) {
+      switch (_context2.prev = _context2.next) {
         case 0:
-          console.log("about to fetch ".concat(event.request.url));
-
           if (!(event.request.cache === "only-if-cached" && event.request.mode !== "same-origin")) {
-            _context.next = 3;
+            _context2.next = 2;
             break;
           }
 
-          return _context.abrupt("return");
+          return _context2.abrupt("return");
 
-        case 3:
+        case 2:
+          response = null;
+
           if (!navigator.onLine) {
-            _context.next = 17;
+            _context2.next = 15;
             break;
           }
 
-          _context.next = 6;
-          return regeneratorRuntime.awrap(fetch(event.request));
+          setTimeout(function _callee() {
+            return regeneratorRuntime.async(function _callee$(_context) {
+              while (1) {
+                switch (_context.prev = _context.next) {
+                  case 0:
+                    _context.next = 2;
+                    return regeneratorRuntime.awrap(fetch(event.request));
 
-        case 6:
-          response = _context.sent;
+                  case 2:
+                    response = _context.sent;
+
+                  case 3:
+                  case "end":
+                    return _context.stop();
+                }
+              }
+            });
+          }, 1000);
 
           if (!(!response || response.status !== 200 || response.type !== "basic")) {
-            _context.next = 9;
+            _context2.next = 7;
             break;
           }
 
-          return _context.abrupt("return", response);
+          return _context2.abrupt("return", response);
 
-        case 9:
-          _context.next = 11;
+        case 7:
+          _context2.next = 9;
           return regeneratorRuntime.awrap(caches.open(CACHE_NAME));
 
-        case 11:
-          cache = _context.sent;
-          _context.next = 14;
+        case 9:
+          cache = _context2.sent;
+          _context2.next = 12;
           return regeneratorRuntime.awrap(cache.put(event.request, response.clone()));
 
-        case 14:
-          return _context.abrupt("return", response);
+        case 12:
+          return _context2.abrupt("return", response.url);
 
-        case 17:
+        case 15:
           event.respondWith(caches.match(event.request).then(function (response) {
             if (response) {
               return response;
             }
           }));
 
-        case 18:
+        case 16:
         case "end":
-          return _context.stop();
+          return _context2.stop();
       }
     }
   });

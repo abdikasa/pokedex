@@ -17,22 +17,23 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", async function (event) {
-  console.log(`about to fetch ${event.request.url}`);
-
   if (
     event.request.cache === "only-if-cached" &&
     event.request.mode !== "same-origin"
   )
     return;
 
+  let response = null;
   if (navigator.onLine) {
-    const response = await fetch(event.request);
+    setTimeout(async () => {
+      response = await fetch(event.request);
+    }, 1000);
     if (!response || response.status !== 200 || response.type !== "basic") {
       return response;
     }
     const cache = await caches.open(CACHE_NAME);
     await cache.put(event.request, response.clone());
-    return response;
+    return response.url;
   } else {
     event.respondWith(
       caches.match(event.request).then(function (response) {
