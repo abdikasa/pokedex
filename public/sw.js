@@ -50,12 +50,13 @@ self.addEventListener("fetch", function (event) {
 });
 
 function fetchWithTimeout(url, timeout = 7000) {
-  return Promise.race([
-    fetch(url),
-    new Promise((_, reject) =>
-      setTimeout(() => reject(new Error("timeout took too long")), timeout)
-    ),
-  ]);
+  return new Promise((resolve, reject) => {
+    fetch(url).then(resolve, reject);
+    if (timeout) {
+      const e = new Error("Connection timed out");
+      setTimeout(reject, timeout, e);
+    }
+  });
 }
 
 // self.addEventListener("fetch", async function (event) {

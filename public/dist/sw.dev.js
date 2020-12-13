@@ -44,11 +44,14 @@ self.addEventListener("fetch", function (event) {
 
 function fetchWithTimeout(url) {
   var timeout = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 7000;
-  return Promise.race([fetch(url), new Promise(function (_, reject) {
-    return setTimeout(function () {
-      return reject(new Error("timeout took too long"));
-    }, timeout);
-  })]);
+  return new Promise(function (resolve, reject) {
+    fetch(url).then(resolve, reject);
+
+    if (timeout) {
+      var e = new Error("Connection timed out");
+      setTimeout(reject, timeout, e);
+    }
+  });
 } // self.addEventListener("fetch", async function (event) {
 //   if (
 //     event.request.cache === "only-if-cached" &&
