@@ -51,7 +51,7 @@ self.addEventListener("fetch", function _callee2(event) {
                 }
               }
             });
-          }, 1000);
+          }, 2000);
 
           if (!(!response || response.status !== 200 || response.type !== "basic")) {
             _context2.next = 7;
@@ -70,7 +70,7 @@ self.addEventListener("fetch", function _callee2(event) {
           return regeneratorRuntime.awrap(cache.put(event.request, response.clone()));
 
         case 12:
-          return _context2.abrupt("return", response.url);
+          return _context2.abrupt("return", response);
 
         case 15:
           event.respondWith(caches.match(event.request).then(function (response) {

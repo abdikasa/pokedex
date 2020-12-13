@@ -27,13 +27,13 @@ self.addEventListener("fetch", async function (event) {
   if (navigator.onLine) {
     setTimeout(async () => {
       response = await fetch(event.request);
-    }, 1000);
+    }, 2000);
     if (!response || response.status !== 200 || response.type !== "basic") {
       return response;
     }
     const cache = await caches.open(CACHE_NAME);
     await cache.put(event.request, response.clone());
-    return response.url;
+    return response;
   } else {
     event.respondWith(
       caches.match(event.request).then(function (response) {
