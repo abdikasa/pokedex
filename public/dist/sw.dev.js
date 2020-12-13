@@ -4,7 +4,7 @@ var CACHE_NAME = "my_cache";
 self.addEventListener("install", function (e) {
   console.log("About to install the service worker babyy");
   e.waitUntil(caches.open(CACHE_NAME).then(function (cache) {
-    return cache.addAll(["/", "/index.html", "static/js/bundle.js"]).then(function () {
+    return cache.addAll(["/", "./index.html", "static/js/bundle.js"]).then(function () {
       return self.skipWaiting();
     });
   }));
@@ -30,7 +30,7 @@ self.addEventListener("fetch", function _callee(event) {
           response = null;
 
           if (!navigator.onLine) {
-            _context.next = 18;
+            _context.next = 17;
             break;
           }
 
@@ -53,21 +53,20 @@ self.addEventListener("fetch", function _callee(event) {
 
         case 11:
           cache = _context.sent;
-          console.log(event.request, response.clone());
-          _context.next = 15;
+          _context.next = 14;
           return regeneratorRuntime.awrap(cache.put(event.request, response.clone()));
 
-        case 15:
+        case 14:
           return _context.abrupt("return", response);
 
-        case 18:
+        case 17:
           event.respondWith(caches.match(event.request).then(function (response) {
             if (response) {
               return response;
             }
           }));
 
-        case 19:
+        case 18:
         case "end":
           return _context.stop();
       }
