@@ -22,14 +22,19 @@ const PokemonImage = ({
     }
   }
 
+  let image =
+    imageFolder === "thumb"
+      ? `https://raw.githubusercontent.com/HybridShivam/Pokemon/master/assets/thumbnails-compressed/${imageId(
+          pokemon.id
+        )}.png`
+      : `https://raw.githubusercontent.com/HybridShivam/Pokemon/master/assets/images/${imageId(
+          pokemon.id
+        )}.png`;
+
   return (
     <div className={className} key={pokemon.id}>
       <img
-        src={
-          require(`../pokemon_imgs/pokemon-${imageFolder}-webp/${imageId(
-            pokemon.id
-          )}${forms}.webp`).default
-        }
+        src={image}
         onError={(e) => {
           e.target.onerror = null;
           // e.target.src = require(`../pokemon_imgs/pokemon-${imageFolder}/${imageId(
