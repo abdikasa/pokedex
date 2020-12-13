@@ -1,5 +1,6 @@
 const CACHE_NAME = "my_cache";
 
+const delay = (t) => new Promise((resolve) => setTimeout(resolve, t));
 const urlsToCache = ["/", "./index.html", "static/js/bundle.js"];
 
 self.addEventListener("install", (e) => {
@@ -28,6 +29,7 @@ self.addEventListener("fetch", async function (event) {
   let response = null;
   if (navigator.onLine) {
     response = await fetch(event.request);
+    await delay(5000);
     if (!response || response.status !== 200 || response.type !== "basic") {
       return response;
     }

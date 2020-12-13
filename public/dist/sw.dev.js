@@ -1,6 +1,13 @@
 "use strict";
 
 var CACHE_NAME = "my_cache";
+
+var delay = function delay(t) {
+  return new Promise(function (resolve) {
+    return setTimeout(resolve, t);
+  });
+};
+
 var urlsToCache = ["/", "./index.html", "static/js/bundle.js"];
 self.addEventListener("install", function (e) {
   console.log("About to install the service worker babyy");
@@ -33,7 +40,7 @@ self.addEventListener("fetch", function _callee(event) {
           response = null;
 
           if (!navigator.onLine) {
-            _context.next = 17;
+            _context.next = 19;
             break;
           }
 
@@ -42,34 +49,37 @@ self.addEventListener("fetch", function _callee(event) {
 
         case 6:
           response = _context.sent;
+          _context.next = 9;
+          return regeneratorRuntime.awrap(delay(5000));
 
+        case 9:
           if (!(!response || response.status !== 200 || response.type !== "basic")) {
-            _context.next = 9;
+            _context.next = 11;
             break;
           }
 
           return _context.abrupt("return", response);
 
-        case 9:
-          _context.next = 11;
+        case 11:
+          _context.next = 13;
           return regeneratorRuntime.awrap(caches.open(CACHE_NAME));
 
-        case 11:
+        case 13:
           cache = _context.sent;
-          _context.next = 14;
+          _context.next = 16;
           return regeneratorRuntime.awrap(cache.put(event.request, response.clone()));
 
-        case 14:
+        case 16:
           return _context.abrupt("return", response);
 
-        case 17:
+        case 19:
           event.respondWith(caches.match(event.request).then(function (response) {
             if (response) {
               return response;
             }
           }));
 
-        case 18:
+        case 20:
         case "end":
           return _context.stop();
       }
