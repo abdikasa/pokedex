@@ -32,9 +32,12 @@ const PokemonImage = ({
         }
         onError={(e) => {
           e.target.onerror = null;
-          e.target.src = require(`../pokemon_imgs/pokemon-${imageFolder}/${imageId(
+          // e.target.src = require(`../pokemon_imgs/pokemon-${imageFolder}/${imageId(
+          //   pokemon.id
+          // )}.jpg`).default;
+          e.target.src = `https://raw.githubusercontent.com/HybridShivam/Pokemon/master/assets/thumbnails-compressed/${imageId(
             pokemon.id
-          )}.jpg`).default;
+          )}.png`;
         }}
         alt={"An image of " + pokemon.name}
         onClick={handleClick}
