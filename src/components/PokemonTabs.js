@@ -72,6 +72,7 @@ class PokemonTabs extends React.Component {
 
   getPanes = () => {
     const { poke, flavor, genera, species } = this.props.tabs[0];
+    console.log("pokemon data", this.props.tabs);
     const { maxTick } = this.getHighestStat();
 
     return [
