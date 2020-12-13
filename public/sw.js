@@ -19,7 +19,6 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", function (event) {
-  console.log("fetching ", event.request.url);
   if (
     event.request.cache === "only-if-cached" &&
     event.request.mode !== "same-origin"
@@ -28,7 +27,7 @@ self.addEventListener("fetch", function (event) {
 
   if (navigator.onLine) {
     var fetchRequest = event.request.clone();
-    return fetchWithTimeout(fetchRequest).then(function (response) {
+    return fetchWithTimeout(fetchRequest, 20000).then(function (response) {
       if (!response || response.status !== 200 || response.type !== "basic") {
         return response;
       }
