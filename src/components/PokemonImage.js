@@ -33,7 +33,13 @@ const PokemonImage = ({
   return (
     <div className={className} key={pokemon.id}>
       <img
-        src={image}
+        src={
+          imageFolder === "thumb"
+            ? require(`../pokemon_imgs/pokemon-${imageFolder}-webp/${imageId(
+                pokemon.id
+              )}${forms}.webp`).default
+            : image
+        }
         onError={(e) => {
           e.target.onerror = null;
           // e.target.src = require(`../pokemon_imgs/pokemon-${imageFolder}/${imageId(
