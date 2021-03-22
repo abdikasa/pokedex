@@ -3,6 +3,11 @@
 margin: 0;
 padding: 0;
 box-sizing: border-box;
+/* font-family: 'Nunito', sans-serif !important; */
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Nunito', sans-serif !important;
 }
 
 body {
@@ -17,12 +22,6 @@ body {
 .ui.small.image.mr{
   margin-bottom:2rem;
 }
-
-/**
-:not(i) {
-  font-family: "Nunito"  !important;
-}
-*/
 
 :root {
   --fire: #f27d16;
@@ -187,8 +186,7 @@ body {
 	height: 100%;
 	background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,.3) 100%);
 	background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,.3) 100%);
-	/* -webkit-transform: skewX(-25deg);
-	transform: skewX(-25deg); */
+	transform: skewX(-25deg); 
 }
 .poke-all:hover::before {
 	-webkit-animation: shine .55s;
@@ -213,7 +211,6 @@ body {
 }
 
 .icon_wrap {
-  /* background-color: #fff; */
   position: relative;
   width: 22px;
   height: 22px;
@@ -234,7 +231,6 @@ body {
   display: flex !important;
   justify-content: center;
   flex-direction: column;
-  /* min-height: 100vh; */
 }
 
 .translateDown {
@@ -388,6 +384,7 @@ margin-top:5rem;
   height:40px !important;
 }
 
+
 @media (min-width: 768px) {
   .pokemon_abilites {
     max-width: 800px;
@@ -410,8 +407,6 @@ margin-top:5rem;
   }
 }
 
-
-
 @media (max-width: 400px) {
   .ui.items.about_items {
     flex-direction: column;
@@ -423,3 +418,4 @@ margin-top:5rem;
   }
 }
 
+  

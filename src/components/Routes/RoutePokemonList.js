@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { connect } from "react-redux";
 import { fetchAll, iChooseYou, setSearch } from "../../action";
+import "../../css/pokemonList.css";
 
 const Search = lazy(() => import("../Search"));
 const Route = lazy(() => import("../Route"));

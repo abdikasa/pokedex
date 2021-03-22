@@ -1,0 +1,31 @@
+
+
+.ui.segment:last-child{
+  margin-bottom: 1rem !important;
+}
+
+@media only screen and (min-width: 1200px) {
+  .ui.container.selected {
+      width: auto !important;
+    }
+    } 
+  
+    @media only screen and (min-width: 992px) and (max-width: 1199px) {
+      .ui.container.selected {
+      width: auto !important;
+    }
+  }
+  
+  @media only screen and (min-width: 768px) and (max-width: 991px){
+    .ui.container.selected 
+  {
+    width: auto !important;
+  }
+  }
+  
+  @media only screen and (max-width: 767px){
+    .ui.container.selected {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  }
+  }

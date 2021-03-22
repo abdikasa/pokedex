@@ -1,3 +1,4 @@
+import { result } from "lodash";
 import Pokeapi from "../api/Pokeapi";
 import { getPokemon } from "../usefulFunctions";
 
@@ -30,9 +31,54 @@ export const getAbilities = () => async (dispatch, getState) => {
 
 function fetchPokemonHelper(id) {
   return new Promise((resolve, reject) => {
-    resolve(Pokeapi.get("/pokemon/" + id));
+    return Pokeapi.get("/pokemon/" + id)
+      .then((pokemon) => resolve(pokemon))
+      .catch((err) => reject());
   });
 }
+
+export const fetchAll = (
+  defaultList = Array.from({ length: 90 }, (_, i) => i + 1)
+) => async (dispatch, getState) => {
+  let arr = [];
+  let result = defaultList.reduce((accumulatorPromise, nextID) => {
+    return accumulatorPromise.then(() => {
+      arr = arr.concat(fetchPokemonHelper(nextID));
+      return arr;
+    });
+  }, Promise.resolve());
+
+  result
+    .then((res) => {
+      return Promise.all(
+        res.map((promise, index) => {
+          return promise
+            .then((poke) => poke.data)
+            .catch((err) => {
+              console.log("error is found: " + err);
+              console.log("promise error: ", promise);
+              return null;
+            });
+        })
+      );
+    })
+    .then((arr) => {
+      dispatch({ type: "FETCH_ALL", payload: arr });
+      if (getState().searched.length === 0) {
+        dispatch({ type: "SEARCHED", payload: arr });
+      }
+    })
+    .catch((err) => console.log("Something went wrong: " + err));
+
+  // result.then(async () => {
+  //   arr = (await Promise.all(arr)).map((pokemon) => pokemon.data);
+  //   console.log("ran again", arr);
+  //   dispatch({ type: "FETCH_ALL", payload: arr });
+  //   if (getState().searched.length === 0) {
+  //     dispatch({ type: "SEARCHED", payload: arr });
+  //   }
+  // });
+};
 
 // export const fetchAll = () => async (dispatch, getState) => {
 //   const response = await Pokeapi.get(`/pokemon/?offset=0&limit=807`);
@@ -49,27 +95,6 @@ function fetchPokemonHelper(id) {
 //     dispatch({ type: "SEARCHED", payload: results });
 //   }
 // };
-
-export const fetchAll = (
-  defaultList = Array.from({ length: 807 }, (_, i) => i + 1)
-) => async (dispatch, getState) => {
-  let arr = [];
-  let result = defaultList.reduce((accumulatorPromise, nextID) => {
-    return accumulatorPromise.then(() => {
-      arr = arr.concat(fetchPokemonHelper(nextID));
-      return arr;
-    });
-  }, Promise.resolve());
-
-  result.then(async () => {
-    arr = (await Promise.all(arr)).map((pokemon) => pokemon.data);
-    console.log("ran again", arr);
-    dispatch({ type: "FETCH_ALL", payload: arr });
-    if (getState().searched.length === 0) {
-      dispatch({ type: "SEARCHED", payload: arr });
-    }
-  });
-};
 
 export const fetchBioEvolution = () => async (dispatch, getState) => {
   if (!getState().selected.id) {
@@ -132,9 +157,11 @@ export const setChartData = (chartObject) => (dispatch) => {
 };
 
 export const setSearch = (q) => (dispatch, getState) => {
-  let searched = [...getState().getAll].filter(
-    (pokemon) => pokemon.name.toLowerCase().indexOf(q.toLowerCase()) > -1
-  );
+  console.log("query is " + q, "state: ", getState());
+  let searched = [...getState().getAll].filter((pokemon) => {
+    console.log("setSearch", pokemon);
+    return pokemon.name.toLowerCase().indexOf(q.toLowerCase()) > -1;
+  });
 
   dispatch({ type: "SEARCHED", payload: searched });
 };

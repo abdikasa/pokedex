@@ -11,7 +11,9 @@ var _default = function _default() {
 
   switch (action.type) {
     case "SEARCHED":
-      return action.payload;
+      return action.payload.filter(function (p) {
+        return p !== null;
+      });
 
     default:
       return state;

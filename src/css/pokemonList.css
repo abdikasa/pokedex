@@ -1,0 +1,18 @@
+@media only screen and (min-width: 1200px) {
+    .ui.container {
+      width: 1127px !important;
+    }
+    } 
+  
+    @media only screen and (min-width: 992px) and (max-width: 1199px) {
+    .ui.container {
+      width: 933px !important;
+    }
+  }
+  
+  @media only screen and (min-width: 768px) and (max-width: 991px){
+  .ui.container 
+  {
+    width: 723px !important;
+  }
+  }
