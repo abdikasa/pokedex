@@ -9,6 +9,7 @@ const PokemonTypes = lazy(() => import("./PokemonTypes"));
 
 const PokemonList = (props) => {
   let { pokemons, setSelectedPoke, setSearch } = props;
+
   const renderPokemon = () => {
     if (!checkPokemonArray(pokemons)) {
       return (
