@@ -80,7 +80,7 @@ function fetchPokemonHelper(id) {
 
 var fetchAll = function fetchAll() {
   var defaultList = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : Array.from({
-    length: 90
+    length: 807
   }, function (_, i) {
     return i + 1;
   });
@@ -102,8 +102,6 @@ var fetchAll = function fetchAll() {
                 return promise.then(function (poke) {
                   return poke.data;
                 })["catch"](function (err) {
-                  console.log("error is found: " + err);
-                  console.log("promise error: ", promise);
                   return null;
                 });
               }));
@@ -350,10 +348,7 @@ exports.setChartData = setChartData;
 
 var setSearch = function setSearch(q) {
   return function (dispatch, getState) {
-    console.log("query is " + q, "state: ", getState());
-
     var searched = _toConsumableArray(getState().getAll).filter(function (pokemon) {
-      console.log("setSearch", pokemon);
       return pokemon.name.toLowerCase().indexOf(q.toLowerCase()) > -1;
     });
 

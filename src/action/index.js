@@ -38,7 +38,7 @@ function fetchPokemonHelper(id) {
 }
 
 export const fetchAll = (
-  defaultList = Array.from({ length: 90 }, (_, i) => i + 1)
+  defaultList = Array.from({ length: 807 }, (_, i) => i + 1)
 ) => async (dispatch, getState) => {
   let arr = [];
   let result = defaultList.reduce((accumulatorPromise, nextID) => {
@@ -55,8 +55,6 @@ export const fetchAll = (
           return promise
             .then((poke) => poke.data)
             .catch((err) => {
-              console.log("error is found: " + err);
-              console.log("promise error: ", promise);
               return null;
             });
         })
@@ -157,9 +155,7 @@ export const setChartData = (chartObject) => (dispatch) => {
 };
 
 export const setSearch = (q) => (dispatch, getState) => {
-  console.log("query is " + q, "state: ", getState());
   let searched = [...getState().getAll].filter((pokemon) => {
-    console.log("setSearch", pokemon);
     return pokemon.name.toLowerCase().indexOf(q.toLowerCase()) > -1;
   });
 
