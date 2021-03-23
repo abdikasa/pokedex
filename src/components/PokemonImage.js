@@ -1,3 +1,5 @@
+import { Children } from "react";
+
 const imageId = (id) => pad(id);
 
 const pad = (number) => {
@@ -13,6 +15,7 @@ const PokemonImage = ({
   pokemon,
   handleClick = null,
   forms = "",
+  children,
 }) => {
   const imageFolder = className.includes("thumb") ? "thumb" : "body";
 
@@ -53,6 +56,7 @@ const PokemonImage = ({
         onClick={handleClick}
         loading="lazy"
       />
+      {children}
     </div>
   );
 };

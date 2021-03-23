@@ -4,6 +4,19 @@
   margin-bottom: 1rem !important;
 }
 
+
+#kanji {
+ position: absolute;
+ top:20%;
+ left:0;   
+ font-size: 8em;
+ word-break: keep-all;
+ font-weight: 600;
+ color: rgba(0,0,0,0.5);
+ opacity: 0.5;
+ transform: translate(-55%, 20%);
+}
+
 @media only screen and (min-width: 1200px) {
   .ui.container.selected {
       width: auto !important;
@@ -13,6 +26,18 @@
     @media only screen and (min-width: 992px) and (max-width: 1199px) {
       .ui.container.selected {
       width: auto !important;
+    }
+  }
+
+  @media only screen and (max-width: 1000px){
+    #kanji {
+      transform: translate(-50%, 20%);
+    }
+  }
+
+  @media only screen and (max-width: 800px){
+    #kanji {
+      transform: translate(-30%, 20%);
     }
   }
   
@@ -29,3 +54,4 @@
   margin-right: 0 !important;
   }
   }
+

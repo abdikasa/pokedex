@@ -52,11 +52,7 @@ export const fetchAll = (
     .then((res) => {
       return Promise.all(
         res.map((promise, index) => {
-          return promise
-            .then((poke) => poke.data)
-            .catch((err) => {
-              return null;
-            });
+          return promise.then((poke) => poke.data).catch((err) => null);
         })
       );
     })

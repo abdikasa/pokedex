@@ -8,12 +8,14 @@ const Route = lazy(() => import("../Route"));
 const PokemonList = lazy(() => import("../PokemonList"));
 
 class RoutePokemonList extends React.Component {
+  state = { pokemonContainer: this.props.searched };
   componentDidMount = () => {
     this.timer = null;
-    (async () => {
-      this.props.fetchAll();
-      //this.props.setSearch("");
-    })();
+    if (this.state.pokemonContainer.length > 0) {
+      return;
+    }
+    this.props.fetchAll();
+    this.setState({ pokemonContainer: this.props.searched });
   };
 
   search = (q) => {

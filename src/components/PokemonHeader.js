@@ -16,10 +16,12 @@ class PokemonHeader extends React.Component {
 
     const [poke, bio, species] = this.props.pokemon;
     let { flavor_text_entries: flavor } = bio;
-    let { genera } = bio;
+    let { genera, names } = bio;
     genera = genera
       .filter((genus) => genus.language.name === "en")
       .map((genera) => genera.genus)[0];
+
+    names = names.filter((format) => format.language.name === "ja")[0].name;
 
     flavor = flavor
       .filter(({ language }) => language.name === "en")
@@ -82,7 +84,9 @@ class PokemonHeader extends React.Component {
                 <PokemonImage
                   pokemon={poke}
                   className={`ui medium image pkmn-header-img body`}
-                ></PokemonImage>
+                >
+                  <span id="kanji">{names}</span>
+                </PokemonImage>
               </Suspense>
               <div className="p-body">
                 <div className={`mt header_types`}>
